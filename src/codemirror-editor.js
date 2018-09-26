@@ -33,6 +33,12 @@ class CodeMirrorEditor extends Editor {
             console.log(change);
         });
 
+        self.editor.on("viewportChange", function (editor, from, to) {
+            console.log('viewportChange');
+            console.log(from, to);
+        });
+
+
 
         self.editor.on("change1", function () {
             // if(self.isFirst){self.isFirst = false;return;}
