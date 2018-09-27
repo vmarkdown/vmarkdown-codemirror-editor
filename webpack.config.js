@@ -20,6 +20,7 @@ const config = {
 
     ],
     devServer: {
+        // hotOnly: true,
         contentBase: path.join(__dirname, "examples")
     }
 };

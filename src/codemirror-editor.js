@@ -1,5 +1,7 @@
 import Editor from './editor';
 
+// import mitt from 'mitt'
+
 class CodeMirrorEditor extends Editor {
 
     constructor(value) {
@@ -18,78 +20,142 @@ class CodeMirrorEditor extends Editor {
         });
 
 
-        self.editor.on("scroll", function () {
-            console.log('scroll');
-        });
+        // self.emitter = mitt();
 
-        self.editor.on("beforeChange", function (editor, change) {
-            console.log('beforeChange');
-            console.log(change);
-        });
+        // self.editor.on("scroll", function () {
+        //     console.log('scroll');
+        // });
+        //
+        // self.editor.on("beforeChange", function (editor, change) {
+        //     console.log('beforeChange');
+        //     console.log(change);
+        // });
+        //
+        //
+        // self.editor.on("change", function (editor, change) {
+        //     console.log('change');
+        //     console.log(change);
+        // });
+        //
+        // self.editor.on("viewportChange", function (editor, from, to) {
+        //     console.log('viewportChange');
+        //     console.log(from, to);
+        // });
+        //
+        // self.editor.on("change1", function () {
+        //     // if(self.isFirst){self.isFirst = false;return;}
+        //     // self.isUnSaved = true;
+        //     // self.$emit('change', self.getValue());
+        //
+        //     // console.log(arguments);
+        //
+        //     const c = arguments[1];
+        //     console.log(c);
+        //
+        //     let action = '';
+        //     let content = '';
+        //
+        //     if(c.origin === "+delete"){
+        //         action = 'remove';
+        //         content = c.removed;
+        //     }
+        //     else if(c.origin === "+input" ||c.origin ==='paste') {
+        //
+        //         if(c.removed.length && c.removed[0]){
+        //             action = 'replace';
+        //         }
+        //         else{
+        //             action = 'insert';
+        //             content = c.text;
+        //         }
+        //
+        //     }
+        //
+        //     const change = {
+        //         start:{
+        //             line: c.from.line + 1,
+        //             column: c.from.ch+ 1,
+        //         },
+        //         end:{
+        //             line: c.to.line + 1,
+        //             column: c.to.ch+ 1,
+        //         },
+        //         action: action,
+        //         content: content
+        //     };
+        //
+        //     console.log(change);
+        //
+        //     return change;
+        //
+        // });
 
 
-        self.editor.on("change", function (editor, change) {
-            console.log('change');
-            console.log(change);
-        });
 
-        self.editor.on("viewportChange", function (editor, from, to) {
-            console.log('viewportChange');
-            console.log(from, to);
-        });
+    }
 
-
-
-        self.editor.on("change1", function () {
-            // if(self.isFirst){self.isFirst = false;return;}
-            // self.isUnSaved = true;
-            // self.$emit('change', self.getValue());
-
-            // console.log(arguments);
-
-            const c = arguments[1];
-            console.log(c);
-
-            let action = '';
-            let content = '';
-
-            if(c.origin === "+delete"){
-                action = 'remove';
-                content = c.removed;
+    on(type, handler) {
+        const self = this;
+        switch (type) {
+            case 'change': {
+                self.editor.on("change", function (editor, change) {
+                    self.$onChange(change, handler);
+                });
+                break;
             }
-            else if(c.origin === "+input" ||c.origin ==='paste') {
+        }
+    }
 
-                if(c.removed.length && c.removed[0]){
-                    action = 'replace';
-                }
-                else{
-                    action = 'insert';
-                    content = c.text;
-                }
+    $onChange(c, handler) {
+        const self = this;
 
+        console.log(c);
+
+        let action = '';
+        let content = '';
+
+        const change = {
+            start:{
+                line: c.from.line + 1,
+                column: c.from.ch + 1,
+            },
+            end:{
+                line: c.to.line + 1,
+                column: c.to.ch + 1,
+            },
+            action: action,
+            content: content
+        };
+
+        if(c.origin ==='setValue'){
+            change.action = 'set';
+            change.content = c.text;
+            change.end.line = c.text.length;
+        }
+        else if(c.origin === "+delete"){
+            change.action = 'remove';
+            change.content = c.removed;
+        }
+        else if(c.origin === "+input" || c.origin ==='paste'||c.origin ==='undo') {
+
+            if(c.removed.length && c.removed[0]){
+                change.action = 'replace';
+                change.content = c.text;
+            }
+            else{
+                change.action = 'insert';
+                change.content = c.text;
             }
 
-            const change = {
-                start:{
-                    line: c.from.line + 1,
-                    column: c.from.ch+ 1,
-                },
-                end:{
-                    line: c.to.line + 1,
-                    column: c.to.ch+ 1,
-                },
-                action: action,
-                content: content
-            };
+            if(c.origin ==='undo'){
+                change.end.line = change.start.line + c.text.length -1;
+            }
 
-            console.log(change);
+        }
 
-            return change;
+        console.log(change);
 
-        });
-
-
-
+        handler && handler.call(self, change);
     }
 
     onCursorChange(e, editor) {

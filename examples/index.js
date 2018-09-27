@@ -2,8 +2,16 @@
 
     const editor = new CodeMirrorEditor(document.getElementById('editor'));
 
+
+
+    editor.on('change', function () {
+        console.log('change');
+    });
+
+
     const md = await ((await fetch('./demo.md')).text());
     editor.setValue(md);
+
 
     // console.log(editor.getValue());
 

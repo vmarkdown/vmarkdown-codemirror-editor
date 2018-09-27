@@ -1,9 +1,12 @@
-import Emitter from './emitter';
+// import Emitter from './emitter';
 
-export default class Editor extends Emitter {
+export default class Editor {
 
-    constructor() {
-        super();
+    // constructor() {
+    //     super();
+    // }
+    on(type, handler) {
+
     }
 
     getValue() {
