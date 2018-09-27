@@ -100,8 +100,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _codemirror_editor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
+/* harmony import */ var _codemirror_editor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
 __webpack_require__(1);
+__webpack_require__(6);
 
 
 /* harmony default export */ __webpack_exports__["default"] = (_codemirror_editor__WEBPACK_IMPORTED_MODULE_0__["default"]);
@@ -141,7 +142,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, ".CodeMirror.cm-s-vmarkdown {\n  font-family: \"Menlo\",\"Helvetica Neue\",Arial,\"Hiragino Sans GB\",\"STHeiti\",\"Microsoft YaHei\",\"WenQuanYi Micro Hei\",SimSun,Song,sans-serif;\n  font-size: 14px;\n  padding-left: 18px; }\n  .CodeMirror.cm-s-vmarkdown .cm-header.cm-header-1 {\n    font-size: 24px;\n    font-weight: bold;\n    color: #6c71c4; }\n  .CodeMirror.cm-s-vmarkdown .cm-header.cm-header-2 {\n    font-size: 20px;\n    font-weight: bold;\n    color: #6c71c4; }\n  .CodeMirror.cm-s-vmarkdown .cm-header.cm-header-3 {\n    font-size: 17px;\n    font-weight: bold;\n    color: #6c71c4; }\n  .CodeMirror.cm-s-vmarkdown .cm-header.cm-header-4 {\n    font-size: 15px;\n    font-weight: bold;\n    color: #268bd2; }\n  .CodeMirror.cm-s-vmarkdown .cm-header.cm-header-5 {\n    font-size: 13px;\n    font-weight: bold;\n    color: #268bd2; }\n  .CodeMirror.cm-s-vmarkdown .cm-header.cm-header-6 {\n    font-size: 11px;\n    font-weight: bold;\n    color: #268bd2; }\n  .CodeMirror.cm-s-vmarkdown .cm-em {\n    color: #cb4b16;\n    font-style: italic; }\n  .CodeMirror.cm-s-vmarkdown .cm-quote {\n    color: inherit; }\n  .CodeMirror.cm-s-vmarkdown .cm-comment {\n    color: #008c00; }\n  .CodeMirror.cm-s-vmarkdown .cm-strong {\n    color: #dc322f;\n    font-weight: bold; }\n", ""]);
+exports.push([module.i, ".CodeMirror .CodeMirror-vscrollbar {\n  outline: none; }\n\n.CodeMirror .CodeMirror-overlayscroll-horizontal div,\n.CodeMirror .CodeMirror-overlayscroll-vertical div {\n  background: #bcd; }\n\n.CodeMirror .CodeMirror-lines {\n  padding-top: 24px; }\n", ""]);
 
 // exports
 
@@ -727,11 +728,50 @@ module.exports = function (css) {
 
 /***/ }),
 /* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(7);
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(4)(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)(false);
+// imports
+
+
+// module
+exports.push([module.i, ".CodeMirror.cm-s-vmarkdown {\n  font-family: \"Menlo\",\"Helvetica Neue\",Arial,\"Hiragino Sans GB\",\"STHeiti\",\"Microsoft YaHei\",\"WenQuanYi Micro Hei\",SimSun,Song,sans-serif;\n  font-size: 14px;\n  padding-left: 18px; }\n  .CodeMirror.cm-s-vmarkdown .cm-header.cm-header-1 {\n    font-size: 24px;\n    font-weight: bold;\n    color: #6c71c4; }\n  .CodeMirror.cm-s-vmarkdown .cm-header.cm-header-2 {\n    font-size: 20px;\n    font-weight: bold;\n    color: #6c71c4; }\n  .CodeMirror.cm-s-vmarkdown .cm-header.cm-header-3 {\n    font-size: 17px;\n    font-weight: bold;\n    color: #6c71c4; }\n  .CodeMirror.cm-s-vmarkdown .cm-header.cm-header-4 {\n    font-size: 15px;\n    font-weight: bold;\n    color: #268bd2; }\n  .CodeMirror.cm-s-vmarkdown .cm-header.cm-header-5 {\n    font-size: 13px;\n    font-weight: bold;\n    color: #268bd2; }\n  .CodeMirror.cm-s-vmarkdown .cm-header.cm-header-6 {\n    font-size: 11px;\n    font-weight: bold;\n    color: #268bd2; }\n  .CodeMirror.cm-s-vmarkdown .cm-em {\n    color: #cb4b16;\n    font-style: italic; }\n  .CodeMirror.cm-s-vmarkdown .cm-quote {\n    color: inherit; }\n  .CodeMirror.cm-s-vmarkdown .cm-comment {\n    color: #008c00; }\n  .CodeMirror.cm-s-vmarkdown .cm-strong {\n    color: #dc322f;\n    font-weight: bold; }\n  .CodeMirror.cm-s-vmarkdown .cm-link {\n    text-decoration: none; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _editor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7);
+/* harmony import */ var _editor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
 
 
 class CodeMirrorEditor extends _editor__WEBPACK_IMPORTED_MODULE_0__["default"] {
@@ -748,6 +788,7 @@ class CodeMirrorEditor extends _editor__WEBPACK_IMPORTED_MODULE_0__["default"] {
             // maxHighlightLength: Infinity,
             lineWrapping: true,
             styleActiveLine: true,
+            scrollbarStyle: "native" //overlay
         });
     }
 
@@ -778,7 +819,7 @@ class CodeMirrorEditor extends _editor__WEBPACK_IMPORTED_MODULE_0__["default"] {
     $onChange(c, handler) {
         const self = this;
 
-        console.log(c);
+        // console.log(c);
 
         let action = '';
         let content = '';
@@ -822,7 +863,7 @@ class CodeMirrorEditor extends _editor__WEBPACK_IMPORTED_MODULE_0__["default"] {
 
         }
 
-        console.log(change);
+        // console.log(change);
 
         handler && handler.call(self, change);
     }
@@ -895,7 +936,7 @@ class CodeMirrorEditor extends _editor__WEBPACK_IMPORTED_MODULE_0__["default"] {
 
 
 /***/ }),
-/* 7 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

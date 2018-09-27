@@ -1,0 +1,112 @@
+editor {
+    color: #000000;
+    background-color: #ffffff;
+    caret: 000000;
+}
+
+editor-selection{
+color: #ffffff;
+background: #ff4f92
+}
+
+H1{
+color: #6c71c4;
+font-weight: bold;
+font-size: 24px;
+}
+
+
+H2{
+color: #6c71c4;
+font-weight: bold;
+font-size: 20px;
+}
+
+
+H3{
+color: #6c71c4;
+font-weight: bold;
+font-size: 17px;
+}
+
+H4{
+color: #268bd2;
+font-weight: bold;
+font-size: 15px;
+}
+
+H5{
+color: #268bd2;
+font-weight: bold;
+font-size: 13px;
+}
+
+
+H6{
+color: #268bd2;
+font-weight: bold;
+font-size: 11px;
+}
+
+
+EMPH{
+color: #cb4b16;
+font-style: italic;
+}
+
+STRONG{
+color: #dc322f;
+font-weight: bold;
+}
+
+HRULE{
+color: #586e75;
+}
+
+LIST_BULLET{
+color: #93a1a1;
+}
+
+LIST_ENUMERATOR{
+color: #93a1a1;
+}
+
+
+LINK{
+color: #4e279a;
+}
+
+AUTO_LINK_URL{
+color: #4e279a;
+}
+
+AUTO_LINK_EMAIL{
+color: #4e279a;
+}
+
+REFERENCE{
+color: #bc670f;
+}
+
+IMAGE{
+color: #cf009a;
+}
+
+CODE{
+color: #008c00;
+}
+
+VERBATIM{
+color: #008c00;
+}
+
+HTML_ENTITY{
+color: #6c71c4;
+}
+
+COMMENT{
+color: #93a1a1;
+}
+BLOCKQUOTE{
+color: #93a1a1;
+ }

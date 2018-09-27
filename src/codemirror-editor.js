@@ -14,6 +14,7 @@ class CodeMirrorEditor extends Editor {
             // maxHighlightLength: Infinity,
             lineWrapping: true,
             styleActiveLine: true,
+            scrollbarStyle: "native" //overlay
         });
     }
 
@@ -44,7 +45,7 @@ class CodeMirrorEditor extends Editor {
     $onChange(c, handler) {
         const self = this;
 
-        console.log(c);
+        // console.log(c);
 
         let action = '';
         let content = '';
@@ -88,7 +89,7 @@ class CodeMirrorEditor extends Editor {
 
         }
 
-        console.log(change);
+        // console.log(change);
 
         handler && handler.call(self, change);
     }
