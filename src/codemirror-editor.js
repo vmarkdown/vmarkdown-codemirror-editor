@@ -1,16 +1,13 @@
 import Editor from './editor';
 
-// import mitt from 'mitt'
-
 class CodeMirrorEditor extends Editor {
 
-    constructor(value) {
+    constructor(el, options) {
         super();
-
         const self = this;
-
-        self.editor = CodeMirror(document.getElementById('editor'), {
-            lineNumbers: true,
+        self.editor = CodeMirror(el, {
+            theme:'default vmarkdown',
+            // lineNumbers: true,
             value: '',
             mode:  "markdown",
             viewportMargin: 100,
@@ -18,80 +15,6 @@ class CodeMirrorEditor extends Editor {
             lineWrapping: true,
             styleActiveLine: true,
         });
-
-
-        // self.emitter = mitt();
-
-        // self.editor.on("scroll", function () {
-        //     console.log('scroll');
-        // });
-        //
-        // self.editor.on("beforeChange", function (editor, change) {
-        //     console.log('beforeChange');
-        //     console.log(change);
-        // });
-        //
-        //
-        // self.editor.on("change", function (editor, change) {
-        //     console.log('change');
-        //     console.log(change);
-        // });
-        //
-        // self.editor.on("viewportChange", function (editor, from, to) {
-        //     console.log('viewportChange');
-        //     console.log(from, to);
-        // });
-        //
-        // self.editor.on("change1", function () {
-        //     // if(self.isFirst){self.isFirst = false;return;}
-        //     // self.isUnSaved = true;
-        //     // self.$emit('change', self.getValue());
-        //
-        //     // console.log(arguments);
-        //
-        //     const c = arguments[1];
-        //     console.log(c);
-        //
-        //     let action = '';
-        //     let content = '';
-        //
-        //     if(c.origin === "+delete"){
-        //         action = 'remove';
-        //         content = c.removed;
-        //     }
-        //     else if(c.origin === "+input" ||c.origin ==='paste') {
-        //
-        //         if(c.removed.length && c.removed[0]){
-        //             action = 'replace';
-        //         }
-        //         else{
-        //             action = 'insert';
-        //             content = c.text;
-        //         }
-        //
-        //     }
-        //
-        //     const change = {
-        //         start:{
-        //             line: c.from.line + 1,
-        //             column: c.from.ch+ 1,
-        //         },
-        //         end:{
-        //             line: c.to.line + 1,
-        //             column: c.to.ch+ 1,
-        //         },
-        //         action: action,
-        //         content: content
-        //     };
-        //
-        //     console.log(change);
-        //
-        //     return change;
-        //
-        // });
-
-
-
     }
 
     on(type, handler) {
@@ -100,6 +23,18 @@ class CodeMirrorEditor extends Editor {
             case 'change': {
                 self.editor.on("change", function (editor, change) {
                     self.$onChange(change, handler);
+                });
+                break;
+            }
+            case 'scroll': {
+                self.editor.on("scroll", function () {
+                    self.$onScroll(handler);
+                });
+                break;
+            }
+            case 'cursorChange': {
+                self.editor.on("cursorActivity", function () {
+                    self.$onCursorChange(handler);
                 });
                 break;
             }
@@ -158,22 +93,29 @@ class CodeMirrorEditor extends Editor {
         handler && handler.call(self, change);
     }
 
-    onCursorChange(e, editor) {
-        const cursor = editor.cursor;
+    $onScroll(handler) {
         const self = this;
-        // self.$emit('cursorChange', {
-        //     line: cursor.row+1,
-        //     column: cursor.column+1
-        // });
+        handler && handler.call(self);
+    }
+
+    $onCursorChange(handler) {
+        const self = this;
+        const cursor = self.editor.getCursor();
+        const result = {
+            line: cursor.line + 1,
+            column: cursor.ch + 1
+        };
+        handler && handler.call(self, result);
     }
 
     getValue() {
-        return this.editor.getValue();
+        const self = this;
+        return self.editor.getValue();
     }
 
     setValue(value) {
         const self = this;
-        this.editor.setValue(value);
+        self.editor.setValue(value);
     }
 
     scrollTo(scrollTop) {
@@ -184,8 +126,29 @@ class CodeMirrorEditor extends Editor {
 
     }
 
-    getFirstVisibleRow() {
-        // return this.editor.getFirstVisibleRow() + 1;
+    scrollIntoViewByLine(line) {
+        const self = this;
+        const params = {
+            line: line,
+            ch: 0
+        };
+        self.editor.scrollIntoView(params);
+    }
+
+    getScrollTop() {
+
+    }
+
+    getFirstVisibleLine() {
+        const self = this;
+        var top = self.editor.display.scroller.scrollTop; //+200;
+        var result = self.editor.coordsChar({
+            top: top,
+            left: 0
+        }, 'local');
+        let lineIndex = result.line;
+        let line = lineIndex + 1;
+        return line;
     }
 
     getLastVisibleRow() {

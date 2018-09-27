@@ -1,17 +1,33 @@
 (async function () {
 
-    const editor = new CodeMirrorEditor(document.getElementById('editor'));
+    const editor = new CodeMirrorEditor(document.getElementById('editor'), {
 
-
-
-    editor.on('change', function () {
-        console.log('change');
     });
 
+    editor.on('change', function (change) {
+        console.log('change');
+        console.log(change);
+    });
+
+    editor.on('scroll', function () {
+        console.log('scroll');
+
+        const line = editor.getFirstVisibleLine();
+        console.log(line);
+    });
+
+    editor.on('cursorChange', function (cursor) {
+        console.log('cursorChange');
+        console.log(cursor);
+    });
 
     const md = await ((await fetch('./demo.md')).text());
     editor.setValue(md);
 
+
+    // setTimeout(function () {
+    //     editor.scrollIntoViewByLine(60);
+    // }, 3000);
 
     // console.log(editor.getValue());
 
