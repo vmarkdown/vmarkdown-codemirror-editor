@@ -25,4 +25,7 @@ export default class Editor {
 
     }
 
+    getLine(line) {
+
+    }
 }

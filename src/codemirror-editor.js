@@ -5,17 +5,19 @@ class CodeMirrorEditor extends Editor {
     constructor(el, options) {
         super();
         const self = this;
-        self.editor = CodeMirror(el, {
-            theme:'default vmarkdown',
-            // lineNumbers: true,
-            value: '',
-            mode:  "markdown",
-            viewportMargin: 100,
-            // maxHighlightLength: Infinity,
-            lineWrapping: true,
-            styleActiveLine: true,
-            scrollbarStyle: "native" //overlay
-        });
+        self.editor = CodeMirror(el,
+            Object.assign({
+                theme:'default vmarkdown',
+                // lineNumbers: true,
+                value: '',
+                mode:  "markdown",
+                viewportMargin: 100,
+                // maxHighlightLength: Infinity,
+                lineWrapping: true,
+                styleActiveLine: true,
+                scrollbarStyle: "native" //overlay
+            }, options)
+        );
     }
 
     on(type, handler) {
@@ -24,6 +26,12 @@ class CodeMirrorEditor extends Editor {
             case 'change': {
                 self.editor.on("change", function (editor, change) {
                     self.$onChange(change, handler);
+                });
+                break;
+            }
+            case 'incremental': {
+                self.editor.on("change", function (editor, change) {
+                    self.$onIncremental(change, handler);
                 });
                 break;
             }
@@ -40,6 +48,52 @@ class CodeMirrorEditor extends Editor {
                 break;
             }
         }
+    }
+
+    _formatChange(c) {
+        let action = '';
+        let content = '';
+
+        const change = {
+            start:{
+                line: c.from.line + 1,
+                column: c.from.ch + 1,
+            },
+            end:{
+                line: c.to.line + 1,
+                column: c.to.ch + 1,
+            },
+            action: action,
+            content: content
+        };
+
+        if(c.origin ==='setValue'){
+            change.action = 'set';
+            change.content = c.text;
+            change.end.line = c.text.length;
+        }
+        else if(c.origin === "+delete"){
+            change.action = 'remove';
+            change.content = c.removed;
+        }
+        else if(c.origin === "+input" || c.origin ==='paste'||c.origin ==='undo') {
+
+            if(c.removed.length && c.removed[0]){
+                change.action = 'replace';
+                change.content = c.text;
+            }
+            else{
+                change.action = 'insert';
+                change.content = c.text;
+            }
+
+            if(c.origin ==='undo'){
+                change.end.line = change.start.line + c.text.length -1;
+            }
+
+        }
+
+        return change;
     }
 
     $onChange(c, handler) {
@@ -92,6 +146,68 @@ class CodeMirrorEditor extends Editor {
         // console.log(change);
 
         handler && handler.call(self, change);
+    }
+
+    $onIncremental(c, handler) {
+        const self = this;
+
+        const change = self._formatChange(c);
+
+        const incremental = {
+            action: '',
+            content: [],
+            start: {
+                line: 0
+            },
+            end: {
+                line: 0
+            }
+        };
+
+        const action = change.action;
+        const start = change.start;
+        const end = change.end;
+
+        if(action === "set") {
+            // console.log('parse all');
+            incremental.action = 'reset';
+        }
+        else if(action === "insert") {
+
+            if(start.line === end.line) {
+                // console.log('parse line', start.line);
+
+                if(start.column === 1){
+                    // console.log('incremental:insert', editor.getLine(start.line));
+                    incremental.action = 'insert';
+                }
+                else {
+                    // console.log('incremental:replace', editor.getLine(start.line));
+                    incremental.action = 'replace';
+                }
+
+                incremental.content.push( self.getLine(start.line) );
+
+            }
+
+            // console.log('parse all');
+        }
+        else if(action === "remove") {
+
+            if(start.line === end.line) {
+                // console.log('incremental:replace', editor.getLine(start.line));
+                incremental.action = 'replace';
+                incremental.content.push( self.getLine(start.line) );
+            }
+            else{
+                // console.log('incremental:remove', start.line);
+                incremental.action = 'remove';
+                incremental.start.line = start.line;
+                incremental.end.line = start.line;
+            }
+        }
+
+        handler && handler.call(self, incremental);
     }
 
     $onScroll(handler) {
@@ -154,6 +270,11 @@ class CodeMirrorEditor extends Editor {
 
     getLastVisibleRow() {
         // return this.editor.getLastVisibleRow() + 1;
+    }
+
+    getLine(line) {
+        const self = this;
+        return self.editor.doc.getLine(line - 1);
     }
 }
 

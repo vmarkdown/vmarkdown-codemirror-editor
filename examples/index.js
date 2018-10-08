@@ -1,14 +1,58 @@
 (async function () {
 
     const editor = new CodeMirrorEditor(document.getElementById('editor'), {
-
+        lineNumbers: true
     });
 
-    editor.on('change', function (change) {
+    editor.on('change1', function (change) {
         console.log('change');
         console.log(change);
+
+        const action = change.action;
+
+        const start = change.start;
+        const end = change.end;
+
+        if(action === "set") {
+            console.log('parse all');
+        }
+        else if(action === "insert") {
+
+            if(start.line === end.line) {
+                console.log('parse line', start.line);
+                // console.log('insert line', start.line);
+
+                if(start.column === 1){
+                    console.log('incremental:insert', editor.getLine(start.line));
+                }
+                else {
+                    console.log('incremental:replace', editor.getLine(start.line));
+                }
+
+            }
+
+            // console.log('parse all');
+        }
+        else if(action === "remove") {
+
+            if(start.line === end.line) {
+                console.log('incremental:replace', editor.getLine(start.line));
+            }
+            else{
+                console.log('incremental:remove', start.line);
+            }
+        }
+
     });
 
+
+    editor.on('incremental', function (incremental) {
+
+        console.log(incremental);
+
+    });
+
+    /*
     editor.on('scroll', function () {
         console.log('scroll');
 
@@ -20,9 +64,14 @@
         console.log('cursorChange');
         console.log(cursor);
     });
+    */
+
 
     const md = await ((await fetch('./demo.md')).text());
     editor.setValue(md);
+
+
+    // console.log(editor.getLine(1));
 
 
     // setTimeout(function () {
