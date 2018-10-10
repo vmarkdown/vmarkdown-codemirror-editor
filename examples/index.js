@@ -1,7 +1,7 @@
 import CodeMirrorEditor from '../src/index';
 import unified from 'unified';
 import parse from './lib/remark-parse2.common';
-import toDom from './lib/mdast-util-to-dom.common';
+// import toDom from './lib/mdast-util-to-dom.common';
 const findNode = require("unist-find-node");
 const processor = unified()
     .use(parse, {});
