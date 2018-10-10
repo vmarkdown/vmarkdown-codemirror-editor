@@ -1,5 +1,12 @@
 import Editor from './editor';
 
+var deepClone = function (obj) {
+    var _tmp,result;
+    _tmp = JSON.stringify(obj);
+    result = JSON.parse(_tmp);
+    return result;
+}
+
 class CodeMirrorEditor extends Editor {
 
     constructor(el, options) {
@@ -15,7 +22,13 @@ class CodeMirrorEditor extends Editor {
                 // maxHighlightLength: Infinity,
                 lineWrapping: true,
                 styleActiveLine: true,
-                scrollbarStyle: "native" //overlay
+                scrollbarStyle: "native", //overlay
+
+                dragDrop: true,
+                selectionsMayTouch: false
+
+
+
             }, options)
         );
     }
@@ -99,12 +112,20 @@ class CodeMirrorEditor extends Editor {
 
     _describeChange(change) {
 
-        // change.from.line = change.from.line+1;
-        // change.from.ch = change.from.ch+1;
-        // change.to.line = change.to.line+1;
-        // change.to.ch = change.to.ch+1;
 
-        console.log(change);
+        const self = this;
+
+        (function (_change) {
+
+            var change = deepClone(_change);
+
+            change.from.line = change.from.line+1;
+            change.from.ch = change.from.ch+1;
+            change.to.line = change.to.line+1;
+            change.to.ch = change.to.ch+1;
+            console.log(change);
+
+        })(change);
 
 
         var origin = change.origin;
@@ -118,6 +139,53 @@ class CodeMirrorEditor extends Editor {
         //
         var fromColumn = from.ch + 1;
         var toColumn = to.ch + 1;
+
+
+        switch (origin) {
+            case '+input': {
+                console.log('['+fromLine+'-'+toLine+']','=>', fromLine);
+                let surplus = self.getLine(fromLine);
+                console.log(surplus);
+                break;
+            }
+            case '+delete': {
+
+
+                if(!removed.join('')) {
+                    console.log('remove', toLine);
+                    break;
+                }
+
+                console.log('['+fromLine+'-'+toLine+']','=>', fromLine);
+
+
+
+                // if( fromColumn === 1 ){
+                //     console.log('['+fromLine+'-'+toLine+']','remove');
+                // }
+                // else {
+                //     console.log('['+fromLine+'-'+toLine+']','=>', fromLine);
+                // }
+
+
+
+                // console.log();
+                // let surplus = self.getLine(fromLine);
+                // if(surplus){
+                //     console.log('['+fromLine+'-'+toLine+']','=>', fromLine);
+                //     console.log(surplus);
+                // }
+                // else {
+                //     // console.log('['+fromLine+'-'+toLine+']','remove');
+                //     console.log('remove', '['+fromLine+'-'+toLine+']');
+                // }
+
+                break;
+            }
+        }
+
+
+
 
 
         // console.log({
@@ -136,41 +204,47 @@ class CodeMirrorEditor extends Editor {
         // var fromColumn = from.ch;
         // var toColumn = to.ch;
 
-        switch (origin) {
-            case '+input': {
-
-                // if(from.line === to.line) {
-                // }
-
-                if(removed.length>0 && removed[0]) {
-
-                    console.log('['+fromLine+':'+fromColumn+'-'+toLine+':'+toColumn+']', removed, 'is replaced by string', text);
-
-
-                }
-                else {
-                    console.log('['+fromLine+':'+fromColumn+'-'+toLine+':'+toColumn+']', 'insert string', text);
-
-                }
-
-
-
-                break;
-            }
-            case '+delete': {
-
-                if(fromLine === toLine) {
-                    console.log('['+fromLine+':'+fromColumn+'-'+toLine+':'+toColumn+']', 'remove string', removed);
-                }
-                else{
-                    console.log('['+fromLine+':'+fromColumn+'-'+toLine+':'+toColumn+']', 'remove line', toLine);
-
-                }
-
-
-
-            }
-        }
+        // switch (origin) {
+        //     case '+input': {
+        //
+        //         // if(from.line === to.line) {
+        //         // }
+        //
+        //         if(removed.length>0 && removed[0]) {
+        //
+        //             // console.log('['+fromLine+':'+fromColumn+'-'+toLine+':'+toColumn+']', removed, 'is replaced by string', text);
+        //
+        //             console.log('['+fromLine+'-'+toLine+']', removed, 'is replaced by string', text);
+        //
+        //
+        //         }
+        //         else {
+        //             // console.log('['+fromLine+':'+fromColumn+'-'+toLine+':'+toColumn+']', 'insert string', text);
+        //
+        //             console.log('['+fromLine+'-'+toLine+']', 'insert string', text);
+        //
+        //         }
+        //
+        //
+        //
+        //         break;
+        //     }
+        //     case '+delete': {
+        //
+        //         if(fromLine === toLine) {
+        //             console.log('['+fromLine+'-'+toLine+']', 'remove string', removed);
+        //         }
+        //         else{
+        //             // console.log('['+fromLine+':'+fromColumn+'-'+toLine+':'+toColumn+']', 'remove line', toLine);
+        //
+        //             console.log('['+fromLine+'-'+toLine+']');
+        //
+        //         }
+        //
+        //
+        //
+        //     }
+        // }
 
 
     }
