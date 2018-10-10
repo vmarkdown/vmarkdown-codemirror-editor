@@ -15,7 +15,8 @@ const md = require('./demo.md');
     const mdast = processor.parse(md);
 
     const editor = new CodeMirrorEditor(document.getElementById('editor'), {
-        lineNumbers: true
+        lineNumbers: true,
+        // firstLineNumber: 0
     });
 
     editor.on('change1', function (change) {
@@ -59,6 +60,7 @@ const md = require('./demo.md');
 
     });
 
+    /*
     editor.on('cursorChange', function (cursor) {
         console.log('cursorChange');
         console.log(cursor);
@@ -76,9 +78,18 @@ const md = require('./demo.md');
 
 
     });
+    */
 
 
     editor.setValue(md);
+
+    editor.on('change', function (change) {
+
+        console.log(change);
+
+    });
+
+
 
     // editor.on('incremental', function (incremental) {
     //

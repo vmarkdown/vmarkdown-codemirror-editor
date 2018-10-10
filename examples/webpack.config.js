@@ -39,7 +39,7 @@ module.exports = {
         })
     ],
     devServer: {
-        // hotOnly: true,
+        hotOnly: false,
         contentBase: path.join(__dirname, "www")
     }
 };
