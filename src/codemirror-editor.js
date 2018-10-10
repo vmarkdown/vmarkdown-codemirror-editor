@@ -171,6 +171,8 @@ class CodeMirrorEditor extends Editor {
         if(action === "set") {
             // console.log('parse all');
             incremental.action = 'reset';
+            incremental.content.push( self.getValue() );
+
         }
         else if(action === "insert") {
 
