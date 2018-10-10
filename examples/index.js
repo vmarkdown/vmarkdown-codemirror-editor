@@ -1,4 +1,18 @@
+import CodeMirrorEditor from '../src/index';
+import unified from 'unified';
+import parse from './lib/remark-parse2.common';
+import toDom from './lib/mdast-util-to-dom.common';
+const findNode = require("unist-find-node");
+const processor = unified()
+    .use(parse, {});
+
+const md = require('./demo.md');
+
+
+
 (async function () {
+
+    const mdast = processor.parse(md);
 
     const editor = new CodeMirrorEditor(document.getElementById('editor'), {
         lineNumbers: true
@@ -45,12 +59,32 @@
 
     });
 
+    editor.on('cursorChange', function (cursor) {
+        console.log('cursorChange');
+        console.log(cursor);
 
-    editor.on('incremental', function (incremental) {
+        if(!mdast) return;
 
-        console.log(incremental);
+        let node = findNode(mdast, cursor);
+
+        if(!node || node.type === 'root') {
+            return;
+        }
+
+        console.log(node);
+
+
 
     });
+
+
+    editor.setValue(md);
+
+    // editor.on('incremental', function (incremental) {
+    //
+    //     console.log(incremental);
+    //
+    // });
 
     /*
     editor.on('scroll', function () {
@@ -67,8 +101,8 @@
     */
 
 
-    const md = await ((await fetch('./demo.md')).text());
-    editor.setValue(md);
+    // const md = await ((await fetch('./demo.md')).text());
+    // editor.setValue(md);
 
 
     // console.log(editor.getLine(1));
