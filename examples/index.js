@@ -6,7 +6,7 @@ const findNode = require("unist-find-node");
 const processor = unified()
     .use(parse, {});
 
-const md = require('./demo.md');
+const md = require('./test.md');
 
 
 
@@ -15,6 +15,7 @@ const md = require('./demo.md');
     const mdast = processor.parse(md);
 
     const editor = new CodeMirrorEditor(document.getElementById('editor'), {
+        value: md,
         lineNumbers: true,
         // firstLineNumber: 0
     });
@@ -74,16 +75,14 @@ const md = require('./demo.md');
         }
 
         console.log(node);
-
-
-
     });
     */
 
 
-    editor.setValue(md);
+    // editor.setValue(md);
 
     editor.on('change', function (change) {
+
 
         console.log(change);
 

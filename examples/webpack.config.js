@@ -39,8 +39,11 @@ module.exports = {
         })
     ],
     devServer: {
-        hotOnly: false,
-        contentBase: path.join(__dirname, "www")
+        hot: false,
+        inline: false,
+        contentBase: path.join(__dirname, "www"),
+        staticOptions: {
+        }
     }
 };
 

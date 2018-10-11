@@ -182,137 +182,175 @@ class CodeMirrorEditor extends Editor {
         var toColumn = to.ch + 1;
 
 
-        if( origin === '+input' || origin === '+delete' ) {
-
-            let index = 0;
-            // let toLineIsRemove = !(text[0].length === 0 && removed.slice(-1)[0].length === 0);
-
-            let toLineIsEmpty = (removed.slice(-1)[0].length === 0);
-
-            for(let i=fromLine;i<=toLine;i++) {
+        switch (origin) {
+            case '+input': {
+                // console.log('['+fromLine+'-'+toLine+']','=>', fromLine);
+                // let surplus = self.getLine(fromLine);
+                // console.log(surplus);
 
 
-                if( i===fromLine && text[0].length === 0 && removed[index].length > 0 && !toLineIsEmpty ) {
-                    let surplus = self.getLine(i);
-                    console.log('line:', i , 'is replaced by', surplus);
-                }
-                else if( i===toLine && toLineIsEmpty) {
+                if( fromLine === toLine ){
+                    if(text.join('') && !removed.join('')) {
+                        console.log('line:', fromLine , 'insert', text);
+                    }
 
-                }
-                else{
-                    console.log('line:', i , 'deleted');
+                    if(text.join('') && removed.join('')) {
+                        console.log('line:', fromLine , removed, 'is replaced by', text);
+                    }
+                    break;
+
                 }
 
+                let index = 0;
+                for(let i=fromLine;i<=toLine;i++) {
 
+                    if( i===fromLine) {
+                        console.log('line:', i , removed[index], 'is replaced by', text);
+                    }
+                    else{
+                        console.log('line:', i , 'remove', removed[index]);
+                    }
 
+                    index++;
+                }
 
-                // if(i === toLine && toLineIsRemove) {
-                //     console.log('line:', i , 'deleted');
-                // }
-                // else if( i===fromLine ) {
-                //
-                //     if(removed[index].length > 0) {
-                //         let surplus = self.getLine(i);
-                //         console.log('line:', i , 'is replaced by', surplus);
-                //     }
-                //
-                // }
-
-
-
-                // if(allRemove) {
-                //     if( i===toLine ) {
-                //
-                //     }
-                //     else{
-                //         console.log('line:', i , 'deleted');
-                //     }
-                //     continue;
-                // }
-                //
-                // if( i===fromLine ) {
-                //     let surplus = self.getLine(i);
-                //     console.log('line:', i , 'is replaced by', surplus);
-                // }
-                // else{
-                //     console.log('line:', i , 'deleted');
-                // }
-
-
-                // if( i===fromLine ) {
-                //     if(text[0].length > 0 || removed.slice(-1)[0].length>0) {
-                //         let surplus = self.getLine(i);
-                //         console.log('line:', i , 'is replaced by', surplus);
-                //     }
-                //
-                //     if(text[0].length === 0 && removed.slice(-1)[0].length === 0) {
-                //         console.log('line:', i , 'deleted');
-                //     }
-                // }
-                // else if( i===toLine ) {
-                //     if(removed[index].length > 0) {
-                //         let surplus = self.getLine(i);
-                //         console.log('line:', i , 'is replaced by', surplus);
-                //     }
-                // }
-                // else{
-                //     console.log('line:', i , 'deleted');
-                // }
-
-
-                index++;
+                break;
             }
+            case '+delete': {
 
+
+
+                // if( fromLine === toLine ){
+                //
+                //     if(!text.join('') && removed.join('')) {
+                //         console.log('line:', fromLine , 'remove', removed);
+                //
+                //     }
+                //     break;
+                // }
+
+                // if( fromLine + 1 === toLine ){
+                //
+                //     if(!text.join('') && removed.join('')) {
+                //         console.log('line:', fromLine , 'remove', removed);
+                //
+                //     }
+                //     break;
+                // }
+
+                let index = 0;
+                for(let i=fromLine;i<=toLine;i++) {
+
+                    if( i===fromLine) {
+                        let surplus = self.getLine(i);
+                        console.log('line:', i , 'is replaced by', surplus);
+                    }
+                    else{
+                        console.log('line:', i , 'deleted');
+                    }
+
+
+                    index++;
+                }
+
+
+
+
+
+
+
+                // if(!removed.join('')) {
+                //     console.log('remove', toLine);
+                //     break;
+                // }
+                //
+                // console.log('['+fromLine+'-'+toLine+']','=>', fromLine);
+
+
+
+                // if( fromColumn === 1 ){
+                //     console.log('['+fromLine+'-'+toLine+']','remove');
+                // }
+                // else {
+                //     console.log('['+fromLine+'-'+toLine+']','=>', fromLine);
+                // }
+
+
+
+                // console.log();
+                // let surplus = self.getLine(fromLine);
+                // if(surplus){
+                //     console.log('['+fromLine+'-'+toLine+']','=>', fromLine);
+                //     console.log(surplus);
+                // }
+                // else {
+                //     // console.log('['+fromLine+'-'+toLine+']','remove');
+                //     console.log('remove', '['+fromLine+'-'+toLine+']');
+                // }
+
+                break;
+            }
         }
-        else{
-            console.log(origin, 'not support');
-        }
 
 
 
 
 
+        // console.log({
+        //     origin,
+        //     from:{
+        //         line: fromLine
+        //     },
+        //     to,
+        //     text,
+        //     removed
+        // });
+
+        // var fromLine = from.line;
+        // var toLine = to.line;
         //
+        // var fromColumn = from.ch;
+        // var toColumn = to.ch;
+
         // switch (origin) {
         //     case '+input': {
-        //         // console.log('['+fromLine+'-'+toLine+']','=>', fromLine);
-        //         // let surplus = self.getLine(fromLine);
-        //         // console.log(surplus);
         //
-        //
-        //         // if( fromLine === toLine ){
-        //         //     if(text.join('') && !removed.join('')) {
-        //         //         console.log('line:', fromLine , 'insert', text);
-        //         //     }
-        //         //
-        //         //     if(text.join('') && removed.join('')) {
-        //         //         console.log('line:', fromLine , removed, 'is replaced by', text);
-        //         //     }
-        //         //     break;
+        //         // if(from.line === to.line) {
         //         // }
         //
-        //         let index = 0;
-        //         for(let i=fromLine;i<=toLine;i++) {
+        //         if(removed.length>0 && removed[0]) {
         //
-        //             if( i===fromLine) {
-        //                 let surplus = self.getLine(i);
-        //                 console.log('line:', i , 'is replaced by', surplus);
-        //             }
-        //             else{
-        //                 console.log('line:', i , 'remove', removed[index]);
-        //             }
+        //             // console.log('['+fromLine+':'+fromColumn+'-'+toLine+':'+toColumn+']', removed, 'is replaced by string', text);
         //
-        //             index++;
+        //             console.log('['+fromLine+'-'+toLine+']', removed, 'is replaced by string', text);
+        //
+        //
         //         }
+        //         else {
+        //             // console.log('['+fromLine+':'+fromColumn+'-'+toLine+':'+toColumn+']', 'insert string', text);
+        //
+        //             console.log('['+fromLine+'-'+toLine+']', 'insert string', text);
+        //
+        //         }
+        //
+        //
         //
         //         break;
         //     }
         //     case '+delete': {
         //
+        //         if(fromLine === toLine) {
+        //             console.log('['+fromLine+'-'+toLine+']', 'remove string', removed);
+        //         }
+        //         else{
+        //             // console.log('['+fromLine+':'+fromColumn+'-'+toLine+':'+toColumn+']', 'remove line', toLine);
+        //
+        //             console.log('['+fromLine+'-'+toLine+']');
+        //
+        //         }
         //
         //
         //
-        //         break;
         //     }
         // }
 
