@@ -48,12 +48,10 @@ class CodeMirrorEditor extends Editor {
                 //     // self._describeChange(change);
                 //     // self.$onChange(change, handler);
                 // });
-
                 self.editor.on("change", function (editor, change) {
-                    self._describeChange(change);
-                    // self.$onChange(change, handler);
+                    // self._describeChange(change);
+                    self.$onChange(change, handler);
                 });
-
                 break;
             }
             case 'incremental': {
@@ -340,6 +338,10 @@ class CodeMirrorEditor extends Editor {
         //
         //
         // handler && handler.call(self, incremental);
+
+
+        const change = self._formatChange(c);
+        handler && handler.call(self, change);
     }
 
     $onIncremental(change, handler) {
