@@ -8,7 +8,15 @@ const processor = unified()
 
 const md = require('./test.md');
 
+function findNodeByLine(mdast, line) {
+    let node = findNode(mdast, {line: line,column: 1});
 
+    if(!node || node.type === 'root') {
+        return null;
+    }
+
+    return node;
+}
 
 (async function () {
 
@@ -19,6 +27,39 @@ const md = require('./test.md');
         lineNumbers: true,
         // firstLineNumber: 0
     });
+
+    editor.on('incremental', function (incremental) {
+
+
+        console.log(incremental);
+
+        const changes = incremental.changes;
+
+
+        changes.forEach(function (change) {
+            console.log(change);
+
+            const node = findNodeByLine(mdast, change.line);
+            console.log(node);
+
+        });
+
+
+
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     editor.on('change1', function (change) {
         console.log('change');
@@ -81,12 +122,7 @@ const md = require('./test.md');
 
     // editor.setValue(md);
 
-    editor.on('change', function (change) {
 
-
-        console.log(change);
-
-    });
 
 
 

@@ -37,17 +37,17 @@ class CodeMirrorEditor extends Editor {
         const self = this;
         switch (type) {
             case 'beforeChange': {
-                self.editor.on("beforeChange", function (editor, change) {
-                    self._describeBeforeChange(change);
-                    // self.$onChange(change, handler);
-                });
+                // self.editor.on("beforeChange", function (editor, change) {
+                //     self._describeBeforeChange(change);
+                //     // self.$onChange(change, handler);
+                // });
                 break;
             }
             case 'change': {
-                self.editor.on("beforeChange", function (editor, change) {
-                    // self._describeChange(change);
-                    // self.$onChange(change, handler);
-                });
+                // self.editor.on("beforeChange", function (editor, change) {
+                //     // self._describeChange(change);
+                //     // self.$onChange(change, handler);
+                // });
 
                 self.editor.on("change", function (editor, change) {
                     self._describeChange(change);
@@ -153,7 +153,7 @@ class CodeMirrorEditor extends Editor {
     _describeChange(change) {
 
 
-        const self = this;
+
 
         (function (_change) {
 
@@ -167,8 +167,7 @@ class CodeMirrorEditor extends Editor {
 
         })(change);
 
-
-
+        const self = this;
         var origin = change.origin;
         var from = change.from;
         var to = change.to;
@@ -182,83 +181,39 @@ class CodeMirrorEditor extends Editor {
         var toColumn = to.ch + 1;
 
 
+        const incremental = {
+            changes: []
+        };
+
         if( origin === '+input' || origin === '+delete' ) {
 
             let index = 0;
-            // let toLineIsRemove = !(text[0].length === 0 && removed.slice(-1)[0].length === 0);
-
             let toLineIsEmpty = (removed.slice(-1)[0].length === 0);
 
             for(let i=fromLine;i<=toLine;i++) {
 
-
                 if( i===fromLine && text[0].length === 0 && removed[index].length > 0 && !toLineIsEmpty ) {
                     let surplus = self.getLine(i);
                     console.log('line:', i , 'is replaced by', surplus);
+                    incremental.changes.push({
+                        action: 'replace',
+                        line: i,
+                        before: '',
+                        after: surplus
+                    });
                 }
                 else if( i===toLine && toLineIsEmpty) {
 
                 }
                 else{
-                    console.log('line:', i , 'deleted');
+                    // console.log('line:', i , 'deleted');
+                    incremental.changes.push({
+                        action: 'remove',
+                        line: i,
+                        before: '',
+                        after: ''
+                    });
                 }
-
-
-
-
-                // if(i === toLine && toLineIsRemove) {
-                //     console.log('line:', i , 'deleted');
-                // }
-                // else if( i===fromLine ) {
-                //
-                //     if(removed[index].length > 0) {
-                //         let surplus = self.getLine(i);
-                //         console.log('line:', i , 'is replaced by', surplus);
-                //     }
-                //
-                // }
-
-
-
-                // if(allRemove) {
-                //     if( i===toLine ) {
-                //
-                //     }
-                //     else{
-                //         console.log('line:', i , 'deleted');
-                //     }
-                //     continue;
-                // }
-                //
-                // if( i===fromLine ) {
-                //     let surplus = self.getLine(i);
-                //     console.log('line:', i , 'is replaced by', surplus);
-                // }
-                // else{
-                //     console.log('line:', i , 'deleted');
-                // }
-
-
-                // if( i===fromLine ) {
-                //     if(text[0].length > 0 || removed.slice(-1)[0].length>0) {
-                //         let surplus = self.getLine(i);
-                //         console.log('line:', i , 'is replaced by', surplus);
-                //     }
-                //
-                //     if(text[0].length === 0 && removed.slice(-1)[0].length === 0) {
-                //         console.log('line:', i , 'deleted');
-                //     }
-                // }
-                // else if( i===toLine ) {
-                //     if(removed[index].length > 0) {
-                //         let surplus = self.getLine(i);
-                //         console.log('line:', i , 'is replaced by', surplus);
-                //     }
-                // }
-                // else{
-                //     console.log('line:', i , 'deleted');
-                // }
-
 
                 index++;
             }
@@ -268,54 +223,7 @@ class CodeMirrorEditor extends Editor {
             console.log(origin, 'not support');
         }
 
-
-
-
-
-        //
-        // switch (origin) {
-        //     case '+input': {
-        //         // console.log('['+fromLine+'-'+toLine+']','=>', fromLine);
-        //         // let surplus = self.getLine(fromLine);
-        //         // console.log(surplus);
-        //
-        //
-        //         // if( fromLine === toLine ){
-        //         //     if(text.join('') && !removed.join('')) {
-        //         //         console.log('line:', fromLine , 'insert', text);
-        //         //     }
-        //         //
-        //         //     if(text.join('') && removed.join('')) {
-        //         //         console.log('line:', fromLine , removed, 'is replaced by', text);
-        //         //     }
-        //         //     break;
-        //         // }
-        //
-        //         let index = 0;
-        //         for(let i=fromLine;i<=toLine;i++) {
-        //
-        //             if( i===fromLine) {
-        //                 let surplus = self.getLine(i);
-        //                 console.log('line:', i , 'is replaced by', surplus);
-        //             }
-        //             else{
-        //                 console.log('line:', i , 'remove', removed[index]);
-        //             }
-        //
-        //             index++;
-        //         }
-        //
-        //         break;
-        //     }
-        //     case '+delete': {
-        //
-        //
-        //
-        //
-        //         break;
-        //     }
-        // }
-
+        return incremental;
 
     }
 
@@ -367,11 +275,161 @@ class CodeMirrorEditor extends Editor {
         // }
 
         // console.log(change);
-        const change = self._formatChange(c);
-        handler && handler.call(self, change);
+        // const change = self._formatChange(c);
+
+
+        // const self = this;
+        // var origin = change.origin;
+        // var from = change.from;
+        // var to = change.to;
+        // var text = change.text;
+        // var removed = change.removed;
+        //
+        // var fromLine = from.line + 1;
+        // var toLine = to.line + 1;
+        // //
+        // var fromColumn = from.ch + 1;
+        // var toColumn = to.ch + 1;
+        //
+        //
+        // const incremental = {
+        //     support: true,
+        //     change: []
+        // };
+        //
+        // if( origin === '+input' || origin === '+delete' ) {
+        //
+        //     let index = 0;
+        //     let toLineIsEmpty = (removed.slice(-1)[0].length === 0);
+        //
+        //     for(let i=fromLine;i<=toLine;i++) {
+        //
+        //         if( i===fromLine && text[0].length === 0 && removed[index].length > 0 && !toLineIsEmpty ) {
+        //             let surplus = self.getLine(i);
+        //             console.log('line:', i , 'is replaced by', surplus);
+        //             incremental.change.push({
+        //                 action: 'replace',
+        //                 line: i,
+        //                 before: '',
+        //                 after: surplus
+        //             });
+        //         }
+        //         else if( i===toLine && toLineIsEmpty) {
+        //
+        //         }
+        //         else{
+        //             // console.log('line:', i , 'deleted');
+        //             incremental.change.push({
+        //                 action: 'remove',
+        //                 line: i,
+        //                 before: '',
+        //                 after: ''
+        //             });
+        //         }
+        //
+        //         index++;
+        //     }
+        //
+        // }
+        // else{
+        //     console.log(origin, 'not support');
+        //     incremental.support = false;
+        // }
+        //
+        // // return incremental;
+        //
+        //
+        // handler && handler.call(self, incremental);
     }
 
-    $onIncremental(c, handler) {
+    $onIncremental(change, handler) {
+
+        console.log(change);
+
+        const self = this;
+        var origin = change.origin;
+        var from = change.from;
+        var to = change.to;
+        var text = change.text;
+        var removed = change.removed;
+
+        var fromLine = from.line + 1;
+        var toLine = to.line + 1;
+        //
+        var fromColumn = from.ch + 1;
+        var toColumn = to.ch + 1;
+
+        const incremental = {
+            action: null,
+            changes: []
+        };
+
+
+        if(origin=== '+input' && text[0].length>0 && removed[0].length ===0) {
+            incremental.action = 'insert';
+        } else if(origin=== '+input' && text[0].length>0 && removed[0].length>0) {
+            incremental.action = 'replace';
+        } else if(origin=== '+delete' && removed[0].length>0) {
+            incremental.action = 'remove';
+        }
+        else {
+            incremental.action = origin;
+        }
+
+        if( origin === '+input' || origin === '+delete' ) {
+
+            let index = 0;
+            let toLineIsEmpty = (removed.slice(-1)[0].length === 0);
+
+            for(let i=fromLine;i<=toLine;i++) {
+
+                if( i===fromLine &&
+                    (
+                        (text[0].length === 0 && removed[index].length > 0 && !toLineIsEmpty)
+                        ||
+                        (text[0].length > 0 && removed[0].length ===0 )
+                        ||
+                        (text[0].length > 0 && removed[index].length >0 )
+                    )
+                ) {
+
+                    let surplus = self.getLine(i);
+                    console.log('line:', i , 'is replaced by', surplus);
+
+                    incremental.changes.push({
+                        action: 'replace',
+                        line: i,
+                        before: '',
+                        after: surplus
+                    });
+                }
+                else if( i===toLine && toLineIsEmpty) {
+
+                }
+                else{
+                    console.log('line:', i , 'deleted');
+
+                    incremental.changes.push({
+                        action: 'remove',
+                        line: i,
+                        before: '',
+                        after: ''
+                    });
+                }
+
+                index++;
+            }
+
+        }
+        else{
+            console.log(origin, 'not support');
+            incremental.support = false;
+        }
+
+        handler && handler.call(self, incremental);
+    }
+
+    $onIncremental1(c, handler) {
         const self = this;
 
         const change = self._formatChange(c);
