@@ -5,8 +5,9 @@ const config = {
     mode: 'none',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: '[name].js',
-        libraryTarget: "umd",
+        filename: '[name].common.js',
+        // libraryTarget: "umd",
+        libraryTarget: "commonjs2",
         library: "[name]",
         libraryExport: 'default'
     },
@@ -34,16 +35,6 @@ const config = {
 };
 
 module.exports = [
-    // merge(config, {
-    //     entry: {
-    //         'ace': path.resolve(__dirname, 'src/ace.js'),
-    //     },
-    //     output: {
-    //     },
-    //     externals: {
-    //
-    //     }
-    // }),
     merge(config, {
         entry: {
             'vmarkdown-codemirror-editor': path.resolve(__dirname, 'src/index.js'),
