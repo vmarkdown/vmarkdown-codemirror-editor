@@ -1,49 +1,60 @@
 const path = require('path');
 const merge = require('webpack-merge');
+// const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-const config = {
+module.exports = {
     mode: 'none',
+    entry: {
+        'vmarkdown-codemirror-editor': path.resolve(__dirname, 'src/index.js'),
+    },
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: '[name].common.js',
         // libraryTarget: "umd",
         libraryTarget: "commonjs2",
-        library: "[name]",
-        libraryExport: 'default'
+        // library: "[name]",
+        libraryExport: 'default',
+        library: "CodeMirrorEditor"
     },
     module: {
         rules: [
+
             {
-                test: /\.scss$/,
+                test: /\.(sa|sc|c)ss$/,
                 use: [
-                    "style-loader",
-                    "css-loader",
-                    "sass-loader"
-                ]
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    // 'postcss-loader',
+                    'sass-loader',
+                ],
             }
+
+            // {
+            //     test: /\.scss$/,
+            //     use: ExtractTextPlugin.extract({
+            //         fallback: 'style-loader',
+            //         use: ['css-loader', 'sass-loader']
+            //     })
+            // },
+
+            // {
+            //     test: /\.scss$/,
+            //     use: [
+            //         "style-loader",
+            //         "css-loader",
+            //         "sass-loader"
+            //     ]
+            // }
         ]
     },
     externals: {
     },
     plugins: [
-
-    ],
-    devServer: {
-        // hotOnly: true,
-        contentBase: path.join(__dirname, "examples")
-    }
+        // new ExtractTextPlugin("vmarkdown-codemirror-editor.css")
+        new MiniCssExtractPlugin({
+            filename: '[name].css'
+        })
+    ]
 };
-
-module.exports = [
-    merge(config, {
-        entry: {
-            'vmarkdown-codemirror-editor': path.resolve(__dirname, 'src/index.js'),
-        },
-        output: {
-            library: "CodeMirrorEditor",
-        },
-        externals: {
-        }
-    })
-];
 

@@ -15,7 +15,6 @@ class CodeMirrorEditor extends Editor {
         self.editor = CodeMirror(el,
             Object.assign({
                 theme:'default vmarkdown',
-                // lineNumbers: true,
                 value: '',
                 mode:  "markdown",
                 // viewportMargin: 100,
@@ -79,7 +78,7 @@ class CodeMirrorEditor extends Editor {
 
     $onChange(change, handler) {
 
-        console.log(change);
+        // console.log(change);
 
         const self = this;
         var origin = change.origin;
