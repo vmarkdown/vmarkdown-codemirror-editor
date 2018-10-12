@@ -1,10 +1,16 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const fs = require('fs');
+
+function getFile(filepath) {
+    return fs.readFileSync(filepath,'utf-8');
+}
 
 module.exports = {
     mode: 'none',
     entry: {
-        'example-main': path.resolve(__dirname, 'index.js')
+        'example-main': path.resolve(__dirname, 'index.js'),
+        'example-preview': path.resolve(__dirname, 'preview.js')
     },
     output: {
         path: path.resolve(__dirname, 'www'),
@@ -35,14 +41,26 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             filename: 'index.html',
-            template: 'examples/index.html'
+            template: 'examples/index.html',
+            inject: false
+            // templateContent: function () {
+            //     let text = getFile(path.resolve(__dirname, 'index.html'));
+            //     let html = text;
+            //     return html;
+            // }
+        }),
+        new HtmlWebpackPlugin({
+            filename: 'preview.html',
+            template: 'examples/preview.html',
+            inject: false
         })
     ],
     devServer: {
         hot: false,
         inline: false,
         contentBase: path.join(__dirname, "www"),
-        staticOptions: {
+        headers: {
+            "X-Custom-Foo": "bar"
         }
     }
 };

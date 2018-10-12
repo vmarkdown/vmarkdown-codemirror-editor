@@ -8,3 +8,8 @@
 8、优化前端代码规范；
 9、优化前端工程编译性能和加载性能
 
+```javascript
+function test() {
+    console.log(1);
+}
+```

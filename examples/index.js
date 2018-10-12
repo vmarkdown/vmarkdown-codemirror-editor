@@ -6,7 +6,39 @@ const findNode = require("unist-find-node");
 const processor = unified()
     .use(parse, {});
 
-const md = require('./test.md');
+const md = require('./md/demo.md');
+// const md = require('./md/large.md');
+
+// const md = (function () {
+//     return [
+//         require('./md/You-Dont-Know-JS-master/README.md'),
+//
+//
+//         require('./md/You-Dont-Know-JS-master/async & performance/README.md'),
+//         require('./md/You-Dont-Know-JS-master/async & performance/toc.md'),
+//         require('./md/You-Dont-Know-JS-master/async & performance/apA.md'),
+//         require('./md/You-Dont-Know-JS-master/async & performance/apB.md'),
+//         require('./md/You-Dont-Know-JS-master/async & performance/apC.md'),
+//         require('./md/You-Dont-Know-JS-master/async & performance/ch1.md'),
+//         require('./md/You-Dont-Know-JS-master/async & performance/ch2.md'),
+//         require('./md/You-Dont-Know-JS-master/async & performance/ch3.md'),
+//         require('./md/You-Dont-Know-JS-master/async & performance/ch4.md'),
+//         require('./md/You-Dont-Know-JS-master/async & performance/ch5.md'),
+//         require('./md/You-Dont-Know-JS-master/async & performance/ch6.md'),
+//         require('./md/You-Dont-Know-JS-master/async & performance/foreword.md')
+//     ];
+// })().join('\n');
+
+// window.addEventListener("storage", function(event){
+//     if(event.key === 'preview') {
+//         var value =  event.newValue;
+//
+//         if(value === 'getValue') {
+//             localStorage.setItem("markdown", md);
+//         }
+//
+//     }
+// });
 
 function findNodeByLine(mdast, line) {
     let node = findNode(mdast, {line: line,column: 1});
@@ -20,7 +52,9 @@ function findNodeByLine(mdast, line) {
 
 (async function () {
 
-    const mdast = processor.parse(md);
+    // const mdast = processor.parse(md);
+    localStorage.setItem("markdown", md);
+
 
     const editor = new CodeMirrorEditor(document.getElementById('editor'), {
         value: md,
@@ -28,35 +62,53 @@ function findNodeByLine(mdast, line) {
         // firstLineNumber: 0
     });
 
-    editor.on('incremental', function (incremental) {
+
+    editor.on('cursorChange', function (cursor) {
+
+        console.log(cursor);
+        localStorage.setItem("cursor", JSON.stringify(cursor));
+
+    });
+
+    function onScroll() {
+        console.log(editor.getFirstVisibleLine());
+        // localStorage.setItem("cursor", JSON.stringify(cursor));
+        // localStorage.setItem("markdown", editor.getValue());
+        localStorage.setItem("firstVisibleLine", editor.getFirstVisibleLine());
+
+    }
+
+    editor.on('scroll', _.throttle(onScroll, 300));
+
+    function onChange() {
+        localStorage.setItem("markdown", editor.getValue());
+    }
+
+    editor.on('change', _.debounce(onChange, 500));
+
+    /*
+    editor.on('change', function (incremental) {
 
 
-        console.log(incremental);
-
-        const changes = incremental.changes;
 
 
-        changes.forEach(function (change) {
-            console.log(change);
 
-            const node = findNodeByLine(mdast, change.line);
-            console.log(node);
-
-        });
+        // console.log('incremental==================================');
+        // console.log(incremental);
+        //
+        // const changes = incremental.changes;
+        // changes.forEach(function (change) {
+        //     console.log(change);
+        //
+        //     const node = findNodeByLine(mdast, change.line);
+        //     console.log(node);
+        //
+        // });
 
 
 
     });
-
-
-
-
-
-
-
-
-
-
+    */
 
 
 
@@ -101,6 +153,26 @@ function findNodeByLine(mdast, line) {
         }
 
     });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /*
     editor.on('cursorChange', function (cursor) {
