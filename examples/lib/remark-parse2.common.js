@@ -330,7 +330,7 @@ proto.interruptBlockquote = [
 proto.blockTokenizers = {
     newline: __webpack_require__(28),
     indentedCode: __webpack_require__(30),
-    fencedCode: __webpack_require__(33),
+    fencedCode: __webpack_require__(34),
     blockquote: __webpack_require__(36),
     atxHeading: __webpack_require__(39),
     thematicBreak: __webpack_require__(40),
@@ -2064,8 +2064,11 @@ function whitespace(character) {
 "use strict";
 
 
-var repeat = __webpack_require__(31);
-var trim = __webpack_require__(32);
+var hash = __webpack_require__(31);
+
+
+var repeat = __webpack_require__(32);
+var trim = __webpack_require__(33);
 
 module.exports = indentedCode;
 
@@ -2153,10 +2156,15 @@ function indentedCode(eat, value, silent) {
             return true;
         }
 
+        var origin = trim(content);
+
         return eat(subvalue)({
             type: 'code',
             lang: null,
-            value: trim(content)
+            value: trim(content),
+
+            origin: origin,
+            hash: hash(origin)
         });
     }
 }
@@ -2164,6 +2172,21 @@ function indentedCode(eat, value, silent) {
 
 /***/ }),
 /* 31 */
+/***/ (function(module, exports) {
+
+module.exports = function hash(str) {
+    if (!str) return 0;
+
+    str = String(str);
+    var hash = 5381, i = str.length;
+    while (i) {
+        hash = (hash * 33) ^ str.charCodeAt(--i);
+    }
+    return hash >>> 0;
+};
+
+/***/ }),
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2240,7 +2263,7 @@ function repeat(str, num) {
 
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2264,19 +2287,19 @@ function trimTrailingLines(value) {
 
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var trim = __webpack_require__(32);
+var trim = __webpack_require__(33);
 
 module.exports = fencedCode;
 
-var getLines = __webpack_require__(34);
+var getLines = __webpack_require__(35);
 
-var hash = __webpack_require__(35);
+var hash = __webpack_require__(31);
 
 var C_NEWLINE = '\n';
 var C_TAB = '\t';
@@ -2515,7 +2538,7 @@ function fencedCode(eat, value, silent) {
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports) {
 
 module.exports = function getLines (text) {
@@ -2524,27 +2547,12 @@ module.exports = function getLines (text) {
 };
 
 /***/ }),
-/* 35 */
-/***/ (function(module, exports) {
-
-module.exports = function hash(str) {
-    if (!str) return 0;
-
-    str = String(str);
-    var hash = 5381, i = str.length;
-    while (i) {
-        hash = (hash * 33) ^ str.charCodeAt(--i);
-    }
-    return hash >>> 0;
-};
-
-/***/ }),
 /* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var hash = __webpack_require__(35);
+var hash = __webpack_require__(31);
 
 var trim = __webpack_require__(37);
 var interrupt = __webpack_require__(38);
@@ -2753,7 +2761,7 @@ function interrupt(interruptors, tokenizers, ctx, params) {
 
 "use strict";
 
-var hash = __webpack_require__(35);
+var hash = __webpack_require__(31);
 
 module.exports = atxHeading;
 
@@ -2907,7 +2915,7 @@ function atxHeading(eat, value, silent) {
 
 module.exports = thematicBreak;
 
-var hash = __webpack_require__(35);
+var hash = __webpack_require__(31);
 
 var C_NEWLINE = '\n';
 var C_TAB = '\t';
@@ -2991,12 +2999,12 @@ function thematicBreak(eat, value, silent) {
 /* eslint-disable max-params */
 
 var trim = __webpack_require__(37);
-var repeat = __webpack_require__(31);
+var repeat = __webpack_require__(32);
 var decimal = __webpack_require__(13);
 var getIndent = __webpack_require__(42);
 var removeIndent = __webpack_require__(43);
 var interrupt = __webpack_require__(38);
-var hash = __webpack_require__(35);
+var hash = __webpack_require__(31);
 
 module.exports = list;
 
@@ -3512,7 +3520,7 @@ function indentation(value) {
 
 
 var trim = __webpack_require__(37);
-var repeat = __webpack_require__(31);
+var repeat = __webpack_require__(32);
 var getIndent = __webpack_require__(42);
 
 module.exports = indentation;
@@ -4354,7 +4362,7 @@ function isUnclosedURLCharacter(character) {
 
 
 var whitespace = __webpack_require__(29);
-var hash = __webpack_require__(35);
+var hash = __webpack_require__(31);
 
 module.exports = table;
 
@@ -4632,13 +4640,13 @@ function table(eat, value, silent) {
 
 "use strict";
 
-var hash = __webpack_require__(35);
-var getLines = __webpack_require__(34);
+var hash = __webpack_require__(31);
+var getLines = __webpack_require__(35);
 
 
 var trim = __webpack_require__(37);
 var decimal = __webpack_require__(13);
-var trimTrailingLines = __webpack_require__(32);
+var trimTrailingLines = __webpack_require__(33);
 var interrupt = __webpack_require__(38);
 
 module.exports = paragraph;

@@ -40,6 +40,14 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
+            filename: 'index.html',
+            inject: false,
+            template: 'examples/index.html',
+            // templateContent: function () {
+            //     return getFile(path.resolve(__dirname, 'index.html'));
+            // }
+        }),
+        new HtmlWebpackPlugin({
             filename: 'editor.html',
             template: 'examples/editor.html',
             inject: false

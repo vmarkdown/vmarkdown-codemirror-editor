@@ -6,7 +6,45 @@ const findNode = require("unist-find-node");
 const processor = unified()
     .use(parse, {});
 
-const md = require('./md/demo.md');
+const md = (function () {
+    return [
+        require('./md/JavaScript-Garden/array/constructor.md'),
+        require('./md/JavaScript-Garden/array/general.md'),
+
+        require('./md/JavaScript-Garden/core/eval.md'),
+        require('./md/JavaScript-Garden/core/semicolon.md'),
+        require('./md/JavaScript-Garden/core/undefined.md'),
+
+        require('./md/JavaScript-Garden/function/arguments.md'),
+        require('./md/JavaScript-Garden/function/closures.md'),
+        require('./md/JavaScript-Garden/function/constructors.md'),
+        require('./md/JavaScript-Garden/function/general.md'),
+        require('./md/JavaScript-Garden/function/scopes.md'),
+        require('./md/JavaScript-Garden/function/this.md'),
+
+
+        require('./md/JavaScript-Garden/intro/authors.md'),
+        require('./md/JavaScript-Garden/intro/contributors.md'),
+        require('./md/JavaScript-Garden/intro/index.md'),
+        require('./md/JavaScript-Garden/intro/license.md'),
+
+        require('./md/JavaScript-Garden/object/forinloop.md'),
+        require('./md/JavaScript-Garden/object/general.md'),
+        require('./md/JavaScript-Garden/object/hasownproperty.md'),
+        require('./md/JavaScript-Garden/object/prototype.md'),
+
+
+        require('./md/JavaScript-Garden/other/timeouts.md'),
+
+        require('./md/JavaScript-Garden/types/casting.md'),
+        require('./md/JavaScript-Garden/types/equality.md'),
+        require('./md/JavaScript-Garden/types/instanceof.md'),
+        require('./md/JavaScript-Garden/types/typeof.md'),
+    ];
+})().join('\n');
+
+
+// const md = require('./md/demo.md');
 // const md = require('./md/large.md');
 
 // const md = (function () {

@@ -15,6 +15,19 @@ function getDate() {
     return (''+date.getFullYear()+'-'+date.getMonth()+'-'+date.getDate()+' '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds());
 }
 
+$.extend($.scrollTo.defaults, {
+    axis: 'y',
+    duration: 300,
+    // offset: {
+    //     top: '50%'
+    // }
+    // interrupt: true
+});
+
+function scrollTo(target) {
+    $(window).stop();
+    $(window).scrollTo(target);
+}
 
 function render(value) {
 
@@ -57,15 +70,13 @@ function active(cursor) {
 
     if($target.length>0) {
         $target[0].scrollIntoViewIfNeeded();
+        // scrollTo($target[0]);
     }
 
 }
 
 
-$.extend($.scrollTo.defaults, {
-    duration: 300,
-    interrupt: true
-});
+
 
 
 function scrollIntoView(line) {
@@ -86,10 +97,12 @@ function scrollIntoView(line) {
     //
     // }
     if($target.length>0) {
+        scrollTo($target[0]);
+
         // $(document.body).stop();
         // $(document.body).scrollTo($target[0]);
-        $(window).stop();
-        $(window).scrollTo($target[0]);
+        // $(window).stop();
+        // $(window).scrollTo($target[0]);
 
         // setTimeout(function () {
         //     // $(document.body).stop()
