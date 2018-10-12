@@ -40,15 +40,25 @@ const md = require('./md/demo.md');
 //     }
 // });
 
-function findNodeByLine(mdast, line) {
-    let node = findNode(mdast, {line: line,column: 1});
+// function findNodeByLine(mdast, line) {
+//     let node = findNode(mdast, {line: line,column: 1});
+//
+//     if(!node || node.type === 'root') {
+//         return null;
+//     }
+//
+//     // if(next) {
+//     //     let nextNode = findNodeByLine(mdast, line + 1, next);
+//     // }
+//
+//     return node;
+// }
 
-    if(!node || node.type === 'root') {
-        return null;
-    }
 
-    return node;
-}
+
+
+
+
 
 (async function () {
 

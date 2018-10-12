@@ -9,7 +9,7 @@ function getFile(filepath) {
 module.exports = {
     mode: 'none',
     entry: {
-        'example-main': path.resolve(__dirname, 'index.js'),
+        'example-editor': path.resolve(__dirname, 'editor.js'),
         'example-preview': path.resolve(__dirname, 'preview.js')
     },
     output: {
@@ -40,8 +40,8 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            filename: 'index.html',
-            template: 'examples/index.html',
+            filename: 'editor.html',
+            template: 'examples/editor.html',
             inject: false
             // templateContent: function () {
             //     let text = getFile(path.resolve(__dirname, 'index.html'));

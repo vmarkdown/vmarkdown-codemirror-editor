@@ -1,7 +1,8 @@
 import unified from 'unified';
 import parse from './lib/remark-parse2.common';
 import toDom from './lib/mdast-util-to-dom.common';
-const findNode = require("unist-find-node");
+// const findNode = require("unist-find-node");
+const NodeUtil = require("./util/node");
 const processor = unified()
     .use(parse, {});
 
@@ -14,15 +15,6 @@ function getDate() {
     return (''+date.getFullYear()+'-'+date.getMonth()+'-'+date.getDate()+' '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds());
 }
 
-function findNodeByLine(mdast, line) {
-    let node = findNode(mdast, {line: line,column: 1});
-
-    if(!node || node.type === 'root') {
-        return null;
-    }
-
-    return node;
-}
 
 function render(value) {
 
@@ -50,7 +42,7 @@ function active(cursor) {
 
     console.log(cursor);
 
-    const node = findNodeByLine(mdast, cursor.line);
+    const node = NodeUtil.findNodeByLine(mdast, cursor.line);
 
     if(!node) return;
 
@@ -67,14 +59,18 @@ function active(cursor) {
         $target[0].scrollIntoViewIfNeeded();
     }
 
-
-
-
 }
+
+
+$.extend($.scrollTo.defaults, {
+    duration: 300,
+    interrupt: true
+});
+
 
 function scrollIntoView(line) {
 
-    const node = findNodeByLine(mdast, line);
+    const node = NodeUtil.findNodeFromLine(mdast, line);
     console.log(line);
     console.log(node);
 
@@ -90,7 +86,15 @@ function scrollIntoView(line) {
     //
     // }
     if($target.length>0) {
-        $(document.body).scrollTo($target[0], 500);
+        // $(document.body).stop();
+        // $(document.body).scrollTo($target[0]);
+        $(window).stop();
+        $(window).scrollTo($target[0]);
+
+        // setTimeout(function () {
+        //     // $(document.body).stop()
+        //     $(window).stop();
+        // }, 2000);
     }
 
 
@@ -101,7 +105,7 @@ window.addEventListener("storage", function(event){
 
     var key = event.key;
     if(key === 'markdown') {
-        let value =  event.newValue;
+        let value = event.newValue;
         render(value);
     }
     else if (key === 'cursor') {
