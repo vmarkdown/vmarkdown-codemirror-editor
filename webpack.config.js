@@ -10,9 +10,12 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: '[name].common.js',
-        // libraryTarget: "umd",
-        libraryTarget: "commonjs2",
+        filename: '[name].js',
+        libraryTarget: "umd",
+
+        // filename: '[name].common.js',
+        // libraryTarget: "commonjs2",
+
         // library: "[name]",
         libraryExport: 'default',
         library: "CodeMirrorEditor"
