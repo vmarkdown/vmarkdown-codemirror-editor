@@ -1,6 +1,6 @@
-import CodeMirrorEditor from '../src/index';
+import CodeMirrorEditor from '../../src/index';
 import unified from 'unified';
-import parse from './lib/remark-parse2.common';
+import parse from '../../examples/lib/remark-parse2.common';
 // import toDom from './lib/mdast-util-to-dom.common';
 const findNode = require("unist-find-node");
 const processor = unified()
@@ -8,38 +8,38 @@ const processor = unified()
 
 const md = (function () {
     return [
-        require('./md/JavaScript-Garden/array/constructor.md'),
-        require('./md/JavaScript-Garden/array/general.md'),
+        require('../../examples/md/JavaScript-Garden/array/constructor.md'),
+        require('../../examples/md/JavaScript-Garden/array/general.md'),
 
-        require('./md/JavaScript-Garden/core/eval.md'),
-        require('./md/JavaScript-Garden/core/semicolon.md'),
-        require('./md/JavaScript-Garden/core/undefined.md'),
+        require('../../examples/md/JavaScript-Garden/core/eval.md'),
+        require('../../examples/md/JavaScript-Garden/core/semicolon.md'),
+        require('../../examples/md/JavaScript-Garden/core/undefined.md'),
 
-        require('./md/JavaScript-Garden/function/arguments.md'),
-        require('./md/JavaScript-Garden/function/closures.md'),
-        require('./md/JavaScript-Garden/function/constructors.md'),
-        require('./md/JavaScript-Garden/function/general.md'),
-        require('./md/JavaScript-Garden/function/scopes.md'),
-        require('./md/JavaScript-Garden/function/this.md'),
-
-
-        require('./md/JavaScript-Garden/intro/authors.md'),
-        require('./md/JavaScript-Garden/intro/contributors.md'),
-        require('./md/JavaScript-Garden/intro/index.md'),
-        require('./md/JavaScript-Garden/intro/license.md'),
-
-        require('./md/JavaScript-Garden/object/forinloop.md'),
-        require('./md/JavaScript-Garden/object/general.md'),
-        require('./md/JavaScript-Garden/object/hasownproperty.md'),
-        require('./md/JavaScript-Garden/object/prototype.md'),
+        require('../../examples/md/JavaScript-Garden/function/arguments.md'),
+        require('../../examples/md/JavaScript-Garden/function/closures.md'),
+        require('../../examples/md/JavaScript-Garden/function/constructors.md'),
+        require('../../examples/md/JavaScript-Garden/function/general.md'),
+        require('../../examples/md/JavaScript-Garden/function/scopes.md'),
+        require('../../examples/md/JavaScript-Garden/function/this.md'),
 
 
-        require('./md/JavaScript-Garden/other/timeouts.md'),
+        require('../../examples/md/JavaScript-Garden/intro/authors.md'),
+        require('../../examples/md/JavaScript-Garden/intro/contributors.md'),
+        require('../../examples/md/JavaScript-Garden/intro/index.md'),
+        require('../../examples/md/JavaScript-Garden/intro/license.md'),
 
-        require('./md/JavaScript-Garden/types/casting.md'),
-        require('./md/JavaScript-Garden/types/equality.md'),
-        require('./md/JavaScript-Garden/types/instanceof.md'),
-        require('./md/JavaScript-Garden/types/typeof.md'),
+        require('../../examples/md/JavaScript-Garden/object/forinloop.md'),
+        require('../../examples/md/JavaScript-Garden/object/general.md'),
+        require('../../examples/md/JavaScript-Garden/object/hasownproperty.md'),
+        require('../../examples/md/JavaScript-Garden/object/prototype.md'),
+
+
+        require('../../examples/md/JavaScript-Garden/other/timeouts.md'),
+
+        require('../../examples/md/JavaScript-Garden/types/casting.md'),
+        require('../../examples/md/JavaScript-Garden/types/equality.md'),
+        require('../../examples/md/JavaScript-Garden/types/instanceof.md'),
+        require('../../examples/md/JavaScript-Garden/types/typeof.md'),
     ];
 })().join('\n');
 

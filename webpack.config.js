@@ -17,7 +17,7 @@ module.exports = {
         // libraryTarget: "commonjs2",
 
         // library: "[name]",
-        libraryExport: 'default',
+        // libraryExport: 'default',
         library: "CodeMirrorEditor"
     },
     module: {

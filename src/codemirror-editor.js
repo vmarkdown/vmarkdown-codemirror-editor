@@ -1,11 +1,12 @@
-import Editor from './editor';
+// import Editor from './base/editor';
+const Editor = require('./base/editor');
 
-var deepClone = function (obj) {
-    var _tmp,result;
-    _tmp = JSON.stringify(obj);
-    result = JSON.parse(_tmp);
-    return result;
-}
+// var deepClone = function (obj) {
+//     var _tmp,result;
+//     _tmp = JSON.stringify(obj);
+//     result = JSON.parse(_tmp);
+//     return result;
+// }
 
 class CodeMirrorEditor extends Editor {
 
@@ -227,5 +228,5 @@ class CodeMirrorEditor extends Editor {
     }
 }
 
-
-export default CodeMirrorEditor;
+module.exports = CodeMirrorEditor;
+// export default CodeMirrorEditor;

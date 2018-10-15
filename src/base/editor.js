@@ -1,6 +1,6 @@
 // import Emitter from './emitter';
 
-export default class Editor {
+class Editor {
 
     // constructor() {
     //     super();
@@ -29,3 +29,5 @@ export default class Editor {
 
     }
 }
+
+module.exports = Editor;

@@ -9,8 +9,8 @@ function getFile(filepath) {
 module.exports = {
     mode: 'none',
     entry: {
-        'example-editor': path.resolve(__dirname, 'editor.js'),
-        'example-preview': path.resolve(__dirname, 'preview.js')
+        'example-editor': path.resolve(__dirname, 'editor/editor.js'),
+        'example-preview': path.resolve(__dirname, 'preview/preview.js')
     },
     output: {
         path: path.resolve(__dirname, 'www'),
@@ -39,17 +39,17 @@ module.exports = {
     externals: {
     },
     plugins: [
-        new HtmlWebpackPlugin({
-            filename: 'index.html',
-            inject: false,
-            template: 'examples/index.html',
-            // templateContent: function () {
-            //     return getFile(path.resolve(__dirname, 'index.html'));
-            // }
-        }),
+        // new HtmlWebpackPlugin({
+        //     filename: 'index.html',
+        //     inject: false,
+        //     template: 'examples/index.html',
+        //     // templateContent: function () {
+        //     //     return getFile(path.resolve(__dirname, 'index.html'));
+        //     // }
+        // }),
         new HtmlWebpackPlugin({
             filename: 'editor.html',
-            template: 'examples/editor.html',
+            template: 'examples/editor/editor.html',
             inject: false
             // templateContent: function () {
             //     let text = getFile(path.resolve(__dirname, 'index.html'));
@@ -59,7 +59,7 @@ module.exports = {
         }),
         new HtmlWebpackPlugin({
             filename: 'preview.html',
-            template: 'examples/preview.html',
+            template: 'examples/preview/preview.html',
             inject: false
         })
     ],

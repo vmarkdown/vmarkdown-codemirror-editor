@@ -1,8 +1,8 @@
 import unified from 'unified';
-import parse from './lib/remark-parse2.common';
-import toDom from './lib/mdast-util-to-dom.common';
+import parse from '../../examples/lib/remark-parse2.common';
+import toDom from '../../examples/lib/mdast-util-to-dom.common';
 // const findNode = require("unist-find-node");
-const NodeUtil = require("./util/node");
+const NodeUtil = require("../../examples/util/node");
 const processor = unified()
     .use(parse, {});
 
