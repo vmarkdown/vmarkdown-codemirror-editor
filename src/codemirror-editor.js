@@ -13,6 +13,7 @@ class CodeMirrorEditor extends Editor {
     constructor(el, options) {
         super();
         const self = this;
+        self.options = options || {};
         self.editor = CodeMirror(el,
             Object.assign({
                 theme:'default vmarkdown',
@@ -27,11 +28,11 @@ class CodeMirrorEditor extends Editor {
                 dragDrop: true,
                 selectionsMayTouch: false,
 
-                pollInterval: 5000,
+                // pollInterval: 5000,
                 extraKeys: {
                     "Enter": "newlineAndIndentContinueMarkdownList"
                 }
-            }, options)
+            }, self.options)
         );
     }
 
