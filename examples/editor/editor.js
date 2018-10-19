@@ -23,6 +23,7 @@ const editor = new CodeMirrorEditor(document.getElementById('editor'), {
 });
 
 editor.on('cursorChange', function (cursor) {
+    console.log(cursor);
     vmarkdown.emit('cursorChange', cursor);
 });
 
