@@ -155,7 +155,7 @@ class VMarkDownPreview extends _base_preview__WEBPACK_IMPORTED_MODULE_0__["defau
         self.$scrollContainer.scrollTo(target, options);
     }
 
-    scrollTo(node) {
+    scrollTo(node, firstVisibleLine, coverageRatio) {
         if(!node) return;
 
         const self = this;
@@ -169,7 +169,16 @@ class VMarkDownPreview extends _base_preview__WEBPACK_IMPORTED_MODULE_0__["defau
         //     axis: 'y',
         //     duration: 300
         // });
-        self._scrollTo(target);
+
+        var options = {};
+
+        if(coverageRatio) {
+            options.over = {
+                top: coverageRatio
+            }
+        }
+
+        self._scrollTo(target, options);
     }
 
     // at grade

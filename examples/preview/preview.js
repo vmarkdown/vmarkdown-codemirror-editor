@@ -73,7 +73,7 @@ function scrollTo(firstVisibleLine) {
         console.log(coverageRatio);
     }
 
-    preview.scrollTo(node, firstVisibleLine);
+    preview.scrollTo(node, firstVisibleLine, coverageRatio);
 }
 
 function activeTo(cursor) {
