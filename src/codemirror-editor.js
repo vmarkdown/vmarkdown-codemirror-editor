@@ -224,20 +224,34 @@ class CodeMirrorEditor extends Editor {
             var lineHandle = self.editor.getLineHandle(lineIndex);
             var height = lineHandle.height;
 
-            console.log('getLineHandle', heightAtLine);
-            console.log('height', height);
+            // console.log('getLineHandle', heightAtLine);
+            // console.log('height', height);
 
-            var coverageRatio = height?(heightAtLine/height):0;
+            const coverageRatio = height?(heightAtLine/height):0;
 
             return {
                 line: firstVisibleLine,
-                height: height,
-                top: heightAtLine,
+                // height: height,
+                // top: heightAtLine,
                 coverageRatio: coverageRatio
             };
 
         }
 
+        // const coverageRatio = height?(heightAtLine/height):0;
+
+        // const startLine = (firstVisibleLine<position.start.line)?position.start.line;
+        const startLine = position.start.line;
+        const endLine = position.end.line;
+
+        const allLine = endLine - startLine + 1;
+
+        const currentLine = (firstVisibleLine<position.start.line)?position.start.line:firstVisibleLine;
+
+        return {
+            line: firstVisibleLine,
+            coverageRatio: currentLine/allLine
+        }
 
 
 
@@ -288,17 +302,17 @@ class CodeMirrorEditor extends Editor {
         // console.log('getLineHandle', editor.editor.getLineHandle(lineIndex));
         // console.log('heightAtLine', editor.editor.heightAtLine(lineIndex));
 
-        var heightAtLine = self.editor.heightAtLine(lineIndex);
-        var lineHandle = self.editor.getLineHandle(lineIndex);
-        var height = lineHandle.height;
-
-        console.log('getLineHandle', heightAtLine);
-        console.log('height', height);
-
-        var p = height?(heightAtLine/height):0;
-
-        // debugger
-        console.log('p', p);
+        // var heightAtLine = self.editor.heightAtLine(lineIndex);
+        // var lineHandle = self.editor.getLineHandle(lineIndex);
+        // var height = lineHandle.height;
+        //
+        // console.log('getLineHandle', heightAtLine);
+        // console.log('height', height);
+        //
+        // var p = height?(heightAtLine/height):0;
+        //
+        // // debugger
+        // console.log('p', p);
 
 
 
@@ -320,4 +334,3 @@ class CodeMirrorEditor extends Editor {
 }
 
 module.exports = CodeMirrorEditor;
-// export default CodeMirrorEditor;

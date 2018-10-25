@@ -18,6 +18,7 @@ module.exports = {
     },
     resolve: {
         alias: {
+            'vmarkdown': path.resolve(__dirname, 'www/vmarkdown.30476d468b942c0bdb31.min.js')
         }
     },
     module: {
