@@ -38,23 +38,23 @@ function onScroll() {
 
     console.log('firstVisibleLine', firstVisibleLine);
 
+    localStorage.setItem("firstVisibleLineChange", firstVisibleLine);
 
-
-    (function () {
-
-        const node = vmarkdown.findNode({
-            line: firstVisibleLine,
-            column: 1
-        });
-
-        console.log( node ) ;
-
-        if(node) {
-            console.log( editor.getFirstVisibleCoverageRatio(firstVisibleLine, node.position) ) ;
-        }
-
-
-    })();
+    // (function () {
+    //
+    //     const node = vmarkdown.findNode({
+    //         line: firstVisibleLine,
+    //         column: 1
+    //     });
+    //
+    //     console.log( node ) ;
+    //
+    //     if(node) {
+    //         console.log( editor.getFirstVisibleCoverageRatio(firstVisibleLine, node.position) ) ;
+    //     }
+    //
+    //
+    // })();
 
 
     // var lineIndex = firstVisibleLine-1;
@@ -83,6 +83,7 @@ editor.on('scroll', _.throttle(onScroll, 300));
 function onChange() {
     const value = editor.getValue();
     // vmarkdown.setValue(value)
+    localStorage.setItem("change", value);
 }
 
 editor.on('change', _.debounce(onChange, 500));
