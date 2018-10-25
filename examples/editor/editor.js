@@ -29,6 +29,27 @@ editor.on('cursorChange', function (cursor) {
 
 function onScroll() {
     const firstVisibleLine = editor.getFirstVisibleLine();
+
+    console.log('firstVisibleLine', firstVisibleLine);
+
+    // var lineIndex = firstVisibleLine-1;
+    //
+    // // console.log('getLineHandle', editor.editor.getLineHandle(lineIndex));
+    // // console.log('heightAtLine', editor.editor.heightAtLine(lineIndex));
+    //
+    // var heightAtLine = editor.editor.heightAtLine(lineIndex);
+    // var lineHandle = editor.editor.getLineHandle(lineIndex);
+    // var height = lineHandle.height;
+    //
+    // console.log('getLineHandle', heightAtLine);
+    // console.log('height', height);
+    //
+    // var p = (heightAtLine/height);
+    //
+    // // debugger
+    // console.log('p', p);
+
+
     vmarkdown.emit('firstVisibleLineChange', firstVisibleLine);
 }
 

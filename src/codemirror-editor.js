@@ -213,6 +213,64 @@ class CodeMirrorEditor extends Editor {
 
     }
 
+    getFirstVisibleCoverageRatio(firstVisibleLine, position) {
+        const self = this;
+
+
+        if( position.start.line === position.end.line ) {
+
+            const lineIndex = firstVisibleLine - 1;
+            var heightAtLine = self.editor.heightAtLine(lineIndex);
+            var lineHandle = self.editor.getLineHandle(lineIndex);
+            var height = lineHandle.height;
+
+            console.log('getLineHandle', heightAtLine);
+            console.log('height', height);
+
+            var coverageRatio = height?(heightAtLine/height):0;
+
+            return {
+                line: firstVisibleLine,
+                height: height,
+                top: heightAtLine,
+                coverageRatio: coverageRatio
+            };
+
+        }
+
+
+
+
+
+        // var top = self.editor.display.scroller.scrollTop;
+        // var result = self.editor.coordsChar({
+        //     top: top,
+        //     left: 0
+        // }, 'local');
+        // let lineIndex = result.line;
+
+
+        // var heightAtLine = self.editor.heightAtLine(lineIndex);
+        // var lineHandle = self.editor.getLineHandle(lineIndex);
+        // var height = lineHandle.height;
+        //
+        // console.log('getLineHandle', heightAtLine);
+        // console.log('height', height);
+        //
+        // var p = height?(heightAtLine/height):0;
+        //
+        // // debugger
+        // console.log('p', p);
+        //
+        // let line = lineIndex + 1;
+        // return {
+        //     line: line,
+        //     height: height,
+        //     top: heightAtLine,
+        //
+        // };
+    }
+
     getFirstVisibleLine() {
         const self = this;
         var top = self.editor.display.scroller.scrollTop; //+200;
@@ -221,6 +279,32 @@ class CodeMirrorEditor extends Editor {
             left: 0
         }, 'local');
         let lineIndex = result.line;
+
+
+
+
+
+        // var lineIndex = firstVisibleLine-1;
+        // console.log('getLineHandle', editor.editor.getLineHandle(lineIndex));
+        // console.log('heightAtLine', editor.editor.heightAtLine(lineIndex));
+
+        var heightAtLine = self.editor.heightAtLine(lineIndex);
+        var lineHandle = self.editor.getLineHandle(lineIndex);
+        var height = lineHandle.height;
+
+        console.log('getLineHandle', heightAtLine);
+        console.log('height', height);
+
+        var p = height?(heightAtLine/height):0;
+
+        // debugger
+        console.log('p', p);
+
+
+
+
+
+
         let line = lineIndex + 1;
         return line;
     }
