@@ -1,85 +1,8 @@
-// const md = require('../md/demo.md');
 const VMarkDown = require('vmarkdown');
-
-const vmarkdown = new VMarkDown({
-    pluginManager: {
-        load: function (plugins) {
-
-            Object.keys(plugins).forEach(function (name) {
-
-                Vue.component(name, {
-                    name: name,
-                    props: {
-                        'lang': {
-                            type: String,
-                            default: ''
-                        },
-                        'code': {
-                            type: String,
-                            required: true
-                        }
-                    },
-                    data() {
-                        return {
-                            result: this.code || ''
-                        }
-                    },
-                    render(h) {
-                        return h('pre', {
-                            'class': [name]
-                        }, [
-                            h('code', {
-                                'class': [],
-                                domProps:{
-                                    innerHTML: this.result
-                                }
-                            })
-                        ]);
-                    }
-                });
-
-            });
-
-
-
-
-        }
-    }
-});
 
 const preview = new VMarkDownPreview({
     scrollContainer: window
 });
-
-function scrollTo(firstVisibleLine) {
-    const node = vmarkdown.findNodeFromLine(firstVisibleLine);
-
-
-    if(node) {
-        console.log(firstVisibleLine);
-        console.log(node.position);
-
-        var position = node.position;
-
-        var startLine = node.position.start.line;
-        var endLine = node.position.end.line;
-
-        var currentLine = firstVisibleLine<startLine?startLine:firstVisibleLine;
-
-        var allLine = endLine - startLine + 1;
-
-        var coverageRatio = (currentLine-startLine)/allLine;
-
-        console.log(coverageRatio);
-    }
-
-    preview.scrollTo(node, firstVisibleLine, coverageRatio);
-}
-
-function activeTo(cursor) {
-    const node = vmarkdown.findNode(cursor);
-    preview.activeTo(node, cursor);
-}
 
 const app = new Vue({
     el: '#preview',
@@ -88,69 +11,65 @@ const app = new Vue({
     },
     methods: {
         async setValue(md) {
-            const h = this.$createElement;
-            const vdom = await vmarkdown.render(md, {h: h});
-
-
-            this.vdom = vdom;
+            const self = this;
+            self.vdom = await self.vmarkdown.process(md);
+        },
+        activeTo(cursor) {
+            const self = this;
+            const node = self.vmarkdown.findNode(cursor);
+            preview.activeTo(node, cursor);
+        },
+        scrollTo(firstVisibleLine) {
+            const self = this;
+            const node = self.vmarkdown.findNodeFromLine(firstVisibleLine);
+            preview.scrollTo(node, firstVisibleLine);
         }
     },
-    render(h) {
-        // return vmarkdown.compile(h);
+    render() {
         return this.vdom;
+    },
+    async mounted(){
+
+        const self = this;
+
+        const h = self.$createElement;
+
+        const vmarkdown = new VMarkDown({
+            h: h,
+            pluginManager: null,
+            rootClassName: 'markdown-body',
+            rootTagName: 'main',
+            hashid: true
+        });
+
+        self.vmarkdown = vmarkdown;
+
+        const md = localStorage.getItem('change');
+
+        if(md) {
+            self.setValue(md);
+        }
+
     }
 });
-
-const md = localStorage.getItem('change');
-if(md) {
-    // vmarkdown.setValue(md);
-    app.setValue(md);
-}
-
-/*
-vmarkdown.on('change', function (value) {
-    app.$forceUpdate();
-});
-
-vmarkdown.on('firstVisibleLineChange', function (firstVisibleLine) {
-    const node = vmarkdown.findNodeFromLine(firstVisibleLine);
-    preview.scrollTo(node);
-});
-
-vmarkdown.on('cursorChange', function (cursor) {
-    const node = vmarkdown.findNode(cursor);
-    preview.activeTo(node);
-});
-*/
-// vmarkdown.setValue(md);
 
 window.addEventListener("storage", function(event){
     const key = event.key;
     const value = event.newValue;
     switch (key) {
         case 'change':{
-            // vmarkdown.setValue(value);
+            app.setValue(value);
             break;
         }
         case 'cursorChange':{
             let cursor = JSON.parse(value);
-            // vmarkdown.emit('cursorChange', cursor);
+            app.activeTo(cursor);
             break;
         }
         case 'firstVisibleLineChange':{
             let firstVisibleLine = parseInt(value, 10);
-            // debugger
-            // vmarkdown.emit('firstVisibleLineChange', firstVisibleLine);
-            scrollTo(firstVisibleLine);
+            app.scrollTo(firstVisibleLine);
             break;
         }
     }
 });
-
-
-// const md = localStorage.getItem('change');
-// if(md) {
-//     vmarkdown.setValue(md);
-// }
-
-

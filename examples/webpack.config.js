@@ -16,7 +16,7 @@ const config = {
     },
     resolve: {
         alias: {
-            'vmarkdown': path.resolve(__dirname, 'www/vmarkdown.30476d468b942c0bdb31.min.js')
+            'vmarkdown': path.resolve(__dirname, 'www/vmarkdown.js')
         }
     },
     module: {

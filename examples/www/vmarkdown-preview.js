@@ -106,19 +106,6 @@ __webpack_require__(1);
 
 const ACTIVE_CLASS = 'vamrkdown-preview-active';
 
-function getDisplay(obj){
-    if (obj.currentStyle) {
-        return obj.currentStyle.display;
-    }
-    else {
-        return getComputedStyle(obj, false).display;
-    }
-}
-
-function isBlock(obj) {
-    return getDisplay(obj) === 'block';
-}
-
 class VMarkDownPreview extends _base_preview__WEBPACK_IMPORTED_MODULE_0__["default"] {
 
     constructor(options) {
@@ -155,24 +142,25 @@ class VMarkDownPreview extends _base_preview__WEBPACK_IMPORTED_MODULE_0__["defau
         self.$scrollContainer.scrollTo(target, options);
     }
 
-    scrollTo(node, firstVisibleLine, coverageRatio) {
+    scrollTo(node, firstVisibleLine) {
         if(!node) return;
 
         const self = this;
         const id = self._getId(node);
         if(!id) return;
 
-        // const id = node.properties.id;
-        // preview.scrollTo('#'+id);
         const target = '#'+id;
-        // self._scrollTo(target, {
-        //     axis: 'y',
-        //     duration: 300
-        // });
+        const options = {};
 
-        var options = {};
+        if(node) {
 
-        if(coverageRatio) {
+            const position = node.position;
+            const startLine = position.start.line;
+            const endLine = position.end.line;
+            const currentLine = firstVisibleLine<startLine?startLine:firstVisibleLine;
+            const allLine = endLine - startLine + 1;
+            const coverageRatio = (currentLine-startLine)/allLine;
+
             options.over = {
                 top: coverageRatio
             }

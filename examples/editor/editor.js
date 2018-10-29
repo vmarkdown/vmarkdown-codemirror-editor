@@ -1,13 +1,13 @@
 // const vmarkdown = require('./vmarkdown');
-const VMarkDown = require('vmarkdown');
-
-const vmarkdown = new VMarkDown({
-    pluginManager: {
-        load: function (plugins) {
-
-        }
-    }
-});
+// const VMarkDown = require('vmarkdown');
+//
+// const vmarkdown = new VMarkDown({
+//     pluginManager: {
+//         load: function (plugins) {
+//
+//         }
+//     }
+// });
 
 // vmarkdown.on('change', function (value) {
 //     localStorage.setItem("change", value);
@@ -31,6 +31,8 @@ const editor = new CodeMirrorEditor(document.getElementById('editor'), {
 editor.on('cursorChange', function (cursor) {
     console.log(cursor);
     // vmarkdown.emit('cursorChange', cursor);
+
+    localStorage.setItem("cursorChange", JSON.stringify(cursor));
 });
 
 function onScroll() {
