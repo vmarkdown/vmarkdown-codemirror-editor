@@ -2,6 +2,7 @@ const path = require('path');
 const merge = require('webpack-merge');
 // const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const production = (process.env.NODE_ENV === 'production');
 
 module.exports = {
     mode: 'none',
@@ -10,7 +11,7 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: '[name].js',
+        filename: production?'[name].[hash].min.js':'[name].js',
         libraryTarget: "umd",
 
         // filename: '[name].common.js',
@@ -56,8 +57,21 @@ module.exports = {
     plugins: [
         // new ExtractTextPlugin("vmarkdown-codemirror-editor.css")
         new MiniCssExtractPlugin({
-            filename: '[name].css'
+            filename: production?'[name].[hash].min.css':'[name].css'
         })
-    ]
+    ],
+    optimization: {
+        // runtimeChunk: 'single',
+        splitChunks: {
+            cacheGroups: {
+                vendors: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vmarkdown-codemirror-editor-vendors',
+                    enforce: true,
+                    chunks: 'all'
+                }
+            }
+        }
+    }
 };
 

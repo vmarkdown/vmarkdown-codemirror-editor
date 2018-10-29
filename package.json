@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "",
   "scripts": {
-    "dist": "webpack -p -c webpack.config.js",
+    "dist": "NODE_ENV=production webpack -p -c webpack.config.js",
     "build": "webpack --config ./webpack.config.js",
     "dev": "webpack-dev-server --config ./examples/webpack.config.js",
     "test": "mocha test/**/*.js"
@@ -36,5 +36,7 @@
     "webpack-dev-server": "^3.1.9",
     "webpack-merge": "^4.1.4"
   },
-  "dependencies": {}
+  "dependencies": {
+    "codemirror": "^5.41.0"
+  }
 }

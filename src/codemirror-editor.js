@@ -1,3 +1,14 @@
+require('codemirror/lib/codemirror.css');
+
+const CodeMirror = require('codemirror');
+
+require('codemirror/mode/xml/xml.js');
+require('codemirror/mode/markdown/markdown.js');
+
+require('codemirror/addon/selection/active-line.js');
+require('codemirror/addon/edit/continuelist.js');
+
+
 // import Editor from './base/editor';
 const Editor = require('./base/editor');
 
