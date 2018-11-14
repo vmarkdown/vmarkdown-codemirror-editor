@@ -199,7 +199,7 @@ class CodeMirrorEditor extends Editor {
 
     setValue(value) {
         const self = this;
-        const newValue = value + '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n';
+        const newValue = value; // + '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n';
         self.editor.setValue(newValue);
     }
 
