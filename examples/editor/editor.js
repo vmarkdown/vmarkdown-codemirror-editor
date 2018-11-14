@@ -40,6 +40,8 @@ function onScroll() {
 
     console.log('firstVisibleLine', firstVisibleLine);
 
+    // console.log('getScrollTop', editor.getScrollTop());
+
     localStorage.setItem("firstVisibleLineChange", firstVisibleLine);
 
     // (function () {

@@ -225,7 +225,8 @@ class CodeMirrorEditor extends Editor {
     }
 
     getScrollTop() {
-
+        const self = this;
+        return self.editor.display.scroller.scrollTop;
     }
 
     getFirstVisibleCoverageRatio(firstVisibleLine, position) {
