@@ -218,8 +218,8 @@ class CodeMirrorEditor extends Editor {
 
     setValue(value) {
         const self = this;
-        const newValue = value + '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n';
-        self.editor.setValue(newValue);
+        // const newValue = value + '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n';
+        self.editor.setValue(value);
     }
 
     scrollTo(scrollTop) {
