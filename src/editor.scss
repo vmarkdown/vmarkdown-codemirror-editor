@@ -17,6 +17,33 @@
     padding-top: 24px;
   }
 
+
+  .CodeMirror-simplescroll-vertical {
+    width: 10px;
+  }
+
+  .CodeMirror-overlayscroll-vertical {
+    width: 10px;
+
+    &:hover , &:focus, &:active{
+      width: 64px;
+      > div {
+        border-radius: 0;
+        min-height: 100px!important;
+        background: rgba(187, 187, 187, 0.5);
+      }
+    }
+
+  }
+
+  .CodeMirror-overlayscroll-horizontal ,
+  .CodeMirror-overlayscroll-vertical {
+    div {
+      border-radius: 10px;
+      background: rgba(187, 187, 187, 0.5);
+    }
+  }
+
 }
 
 

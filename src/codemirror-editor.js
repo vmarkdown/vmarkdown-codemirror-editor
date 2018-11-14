@@ -8,6 +8,9 @@ require('codemirror/mode/markdown/markdown.js');
 require('codemirror/addon/selection/active-line.js');
 require('codemirror/addon/edit/continuelist.js');
 
+require('codemirror/addon/scroll/simplescrollbars.css');
+require('codemirror/addon/scroll/simplescrollbars.js');
+
 
 // import Editor from './base/editor';
 const Editor = require('./base/editor');
@@ -34,7 +37,8 @@ class CodeMirrorEditor extends Editor {
                 // maxHighlightLength: Infinity,
                 lineWrapping: true,
                 styleActiveLine: true,
-                scrollbarStyle: "native", //overlay
+                // scrollbarStyle: "native", //overlay simple
+                scrollbarStyle: "native",
 
                 dragDrop: true,
                 selectionsMayTouch: false,
@@ -342,6 +346,12 @@ class CodeMirrorEditor extends Editor {
         const self = this;
         return self.editor.doc.getLine(line - 1);
     }
+
+
+    openSma() {
+
+    }
+
 }
 
 module.exports = CodeMirrorEditor;
