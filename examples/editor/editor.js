@@ -92,5 +92,10 @@ function onChange() {
 
 editor.on('change', _.debounce(onChange, 500));
 
-const md = require('../md/demo.md');
+const md = require('../md/test.html');
 editor.setValue(md);
+
+
+// setTimeout(function () {
+//     editor.editor.execCommand('selectAll');
+// }, 3000);

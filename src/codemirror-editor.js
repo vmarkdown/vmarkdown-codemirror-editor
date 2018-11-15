@@ -11,6 +11,9 @@ require('codemirror/addon/edit/continuelist.js');
 require('codemirror/addon/scroll/simplescrollbars.css');
 require('codemirror/addon/scroll/simplescrollbars.js');
 
+require('codemirror/addon/mode/overlay.js');
+require('codemirror/addon/mode/multiplex.js');
+
 
 // import Editor from './base/editor';
 const Editor = require('./base/editor');
@@ -22,19 +25,44 @@ const Editor = require('./base/editor');
 //     return result;
 // }
 
-function trimTrailingLines(value) {
-    var val = value;
-    var index = val.length - 1;
-    while (index >= 0) {
-        var v = val.charAt(index);
-        if(v !== '\n' && v !== ' '){
-            break
-        }
-        --index;
-    }
+const util = require('./util');
 
-    return val.slice(0, index + 1)
-}
+// "text/markdown"
+CodeMirror.defineMode("vmarkdown", function(config, parserConfig) {
+    var mustacheOverlay = {
+        token1: function(stream, state) {
+            var ch;
+            if (stream.match("{{")) {
+                while ((ch = stream.next()) != null)
+                    if (ch == "}" && stream.next() == "}") {
+                        stream.eat("}");
+                        return "mustache";
+                    }
+            }
+            while (stream.next() != null && !stream.match("{{", false)) {}
+            return null;
+        },
+        token: function(stream, state) {
+            // debugger
+            // if (stream.match("[TOC]", true, true)) {
+            //     return "toc";
+            // }
+            // while (stream.next() != null && !stream.match("[TOC]", false, true)) {}
+            // return null;
+
+            var match = stream.match(/^ {0,3}\[(TOC|toc)\]/, true, true);
+            if( match ) {
+                return "toc";
+            }
+            else {
+                stream.skipToEnd();
+            }
+            return null;
+        }
+    };
+    return CodeMirror.overlayMode(CodeMirror.getMode(config, parserConfig.backdrop || "text/markdown"), mustacheOverlay);
+});
+
 
 class CodeMirrorEditor extends Editor {
 
@@ -46,7 +74,8 @@ class CodeMirrorEditor extends Editor {
             Object.assign({
                 theme:'default vmarkdown',
                 value: '',
-                mode:  "markdown",
+                mode:  "vmarkdown",
+                // mode:  "markdown",
                 // viewportMargin: 100,
                 // maxHighlightLength: Infinity,
                 lineWrapping: true,
@@ -212,7 +241,7 @@ class CodeMirrorEditor extends Editor {
 
     getValue() {
         const self = this;
-        const value = trimTrailingLines(self.editor.getValue());
+        const value = util.trimTrailingLines(self.editor.getValue());
         return value;
     }
 

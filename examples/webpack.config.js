@@ -22,7 +22,7 @@ const config = {
     module: {
         rules: [
             {
-                test: /\.md$/,
+                test: /\.(md|html)$/,
                 use: 'text-loader'
             },
             {
