@@ -29,7 +29,7 @@ const editor = new CodeMirrorEditor(document.getElementById('editor'), {
 });
 
 editor.on('cursorChange', function (cursor) {
-    console.log(cursor);
+    // console.log(cursor);
     // vmarkdown.emit('cursorChange', cursor);
 
     localStorage.setItem("cursorChange", JSON.stringify(cursor));
@@ -38,7 +38,7 @@ editor.on('cursorChange', function (cursor) {
 function onScroll() {
     const firstVisibleLine = editor.getFirstVisibleLine();
 
-    console.log('firstVisibleLine', firstVisibleLine);
+    // console.log('firstVisibleLine', firstVisibleLine);
 
     // console.log('getScrollTop', editor.getScrollTop());
 
@@ -99,3 +99,37 @@ editor.setValue(md);
 // setTimeout(function () {
 //     editor.editor.execCommand('selectAll');
 // }, 3000);
+
+setTimeout(function () {
+
+
+    // editor.editor.execCommand('selectAll');
+
+    // editor.editor.replaceSelection("插入的内容");
+    // const cursor = editor.editor.getCursor();
+    // console.log( cursor );
+
+    const selections = editor.editor.listSelections();
+    // console.log( selections );
+
+    selections.forEach(function ({anchor, head}) {
+        console.log( anchor.line, head.line );
+
+
+
+
+
+
+    });
+
+    // const selection = editor.editor.getSelection();
+    // console.log( selection );
+
+    // editor.editor.replaceSelection();
+
+
+
+
+
+
+}, 3000);
