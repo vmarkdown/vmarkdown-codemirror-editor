@@ -14,6 +14,10 @@ require('codemirror/addon/scroll/simplescrollbars.js');
 require('codemirror/addon/mode/overlay.js');
 require('codemirror/addon/mode/multiplex.js');
 
+require('codemirror/addon/hint/show-hint.css');
+require('codemirror/addon/hint/show-hint.js');
+
+
 
 // import Editor from './base/editor';
 const Editor = require('./base/editor');
@@ -64,6 +68,76 @@ CodeMirror.defineMode("vmarkdown", function(config, parserConfig) {
 });
 
 
+
+(function () {
+
+    // const codemirror = CodeMirror(document.body, {
+    //     value: '// CodeMirror Addon hint/show-hint.js sample.\n// Snippets are Ctrl-E or Cmd-E.',
+    //     mode: 'text/javascript',
+    //     lineNumbers: true,
+    //     styleActiveLine: true,
+    //     theme: 'solarized dark'
+    // })
+    //
+    // // keymap を指定
+    // codemirror.setOption('extraKeys', {
+    //     'Cmd-E': function() {
+    //         snippet()
+    //     },
+    //     'Ctrl-E': function() {
+    //         snippet()
+    //     }
+    // })
+
+
+
+
+})();
+
+const SNIPPETS = {
+    TABLE: [
+        '\n',
+        '| Month    | Assignee | Backup |',
+        '| :------- | --------:| :----: |',
+        '| January  | Dave     | Steve  |',
+        '| February | Gregg    | Karen  |',
+        '| March    | Diane    | Jorge  |',
+        '\n',
+    ].join('\n'),
+    UNORDERED_LIST: [
+        '\n',
+        '- 1',
+        '- 2',
+        '- 3',
+        '- 4',
+        '\n',
+    ].join('\n'),
+    ORDERED_LIST: [
+        '\n',
+        '1. 1',
+        '2. 2',
+        '3. 3',
+        '4. 4',
+        '\n',
+    ].join('\n'),
+    TASK_LIST: [
+        '\n',
+        '- [x] 1',
+        '- [ ] 2',
+        '- [ ] 3',
+        '- [x] 4',
+        '\n',
+    ].join('\n'),
+};
+
+
+const snippets = [
+    { text: SNIPPETS.TABLE, displayText: 'Table' },
+    { text: SNIPPETS.UNORDERED_LIST, displayText: 'Unordered List' },
+    { text: SNIPPETS.ORDERED_LIST, displayText: 'Ordered List' },
+    { text: SNIPPETS.TASK_LIST, displayText: 'Task List' },
+];
+
 class CodeMirrorEditor extends Editor {
 
     constructor(el, options) {
@@ -89,12 +163,37 @@ class CodeMirrorEditor extends Editor {
                 // pollInterval: 5000,
                 extraKeys: {
                     "Enter": "newlineAndIndentContinueMarkdownList",
-                    "Cmd-B": function(){
-                        self.execCommand('strong');
+                    // "Cmd-B": function(){
+                    //     self.execCommand('strong');
+                    // }
+                    "Cmd-E": function(){
+                        snippet();
                     }
                 }
             }, self.options)
         );
+
+
+        function snippet() {
+            const codemirror = self.editor;
+            CodeMirror.showHint(codemirror, function () {
+                const cursor = codemirror.getCursor();
+                const token = codemirror.getTokenAt(cursor);
+                const start = token.start;
+                const end = cursor.ch;
+                const line = cursor.line;
+                const currentWord = token.string;
+                const list = snippets.filter(function (item) {
+                    return item.text.indexOf(currentWord) >= 0
+                });
+                return {
+                    list: list.length ? list : snippets,
+                    from: CodeMirror.Pos(line, start),
+                    to: CodeMirror.Pos(line, end)
+                }
+            }, { completeSingle: false })
+        }
+
 
     }
 
