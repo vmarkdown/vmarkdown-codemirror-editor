@@ -590,10 +590,10 @@ class CodeMirrorEditor extends Editor {
         self.editor.replaceSelection( '['+ selection +']()' );
     }
 
-    formatImage({url=''}) {
+    formatImage({url}) {
         const self = this;
         const selection = self.editor.getSelection();
-        self.editor.replaceSelection( '!['+ selection +']('+url+')' );
+        self.editor.replaceSelection( '!['+ selection +']('+url||''+')' );
     }
 
     formatTable() {
