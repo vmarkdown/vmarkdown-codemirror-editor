@@ -397,6 +397,153 @@ class CodeMirrorEditor extends Editor {
 
     }
 
+    formatHeading({level}) {
+        const self = this;
+        const selections = self.editor.listSelections();
+        selections.forEach(function ({anchor}) {
+
+            const line = anchor.line;
+            let string = self.getLine(line+1);
+
+            const from = {
+                line: line,
+                ch: 0
+            };
+
+            const to = {
+                line: line,
+                ch: string.length
+            };
+
+            if(string) {
+                string = string.replace(/^#+[ ]{0,3}/,'');
+            }
+
+            let prefix = '#';
+
+            if(level===1){
+                prefix = '#';
+            }
+            else if(level===2){
+                prefix = '##';
+            }
+            else if(level===3){
+                prefix = '###';
+            }
+            else if(level===4){
+                prefix = '####';
+            }
+            else if(level===5){
+                prefix = '#####';
+            }
+            else if(level===6){
+                prefix = '######';
+            }
+
+            self.editor.replaceRange( prefix +' '+ string, from, to);
+        });
+    }
+
+    formatStrong() {
+        const self = this;
+        const selection = self.editor.getSelection();
+        self.editor.replaceSelection( '**'+ selection +'**' );
+    }
+
+    formatEmphasis() {
+        const self = this;
+        const selection = self.editor.getSelection();
+        self.editor.replaceSelection( '*'+ selection +'*' );
+    }
+
+    formatDelete() {
+        const self = this;
+        const selection = self.editor.getSelection();
+        self.editor.replaceSelection( '~~'+ selection +'~~' );
+    }
+
+    formatUnderline() {
+        const self = this;
+        self.editor.replaceSelection( '---' );
+    }
+
+    formatInlineCode() {
+        const self = this;
+        const selection = self.editor.getSelection();
+        self.editor.replaceSelection( '`'+ selection +'`' );
+    }
+
+    formatLink() {
+        const self = this;
+        const selection = self.editor.getSelection();
+        self.editor.replaceSelection( '['+ selection +']()' );
+    }
+
+    formatImage() {
+        const self = this;
+        const selection = self.editor.getSelection();
+        self.editor.replaceSelection( '!['+ selection +']()' );
+    }
+
+    formatTable() {
+        const self = this;
+        const cursor = self.editor.getCursor();
+        const string = [
+            '\n',
+            '| Month    | Assignee | Backup |',
+            '| January  | Dave     | Steve  |',
+            '| February | Gregg    | Karen  |',
+            '| March    | Diane    | Jorge  |',
+            '\n',
+        ].join('\n');
+        self.editor.replaceRange(string, cursor, cursor);
+    }
+
+    execCommand(name, options) {
+        const self = this;
+        switch (name) {
+            case 'heading': {
+                self.formatHeading(options);
+                break;
+            }
+            case 'strong': {
+                self.formatStrong();
+                break;
+            }
+            case 'emphasis': {
+                self.formatEmphasis();
+                break;
+            }
+            case 'delete': {
+                self.formatDelete();
+                break;
+            }
+            case 'underline': {
+                self.formatUnderline();
+                break;
+            }
+            case 'inlineCode': {
+                self.formatInlineCode();
+                break;
+            }
+            case 'link': {
+                self.formatLink();
+                break;
+            }
+            case 'image': {
+                self.formatImage(options);
+                break;
+            }
+            case 'table': {
+                self.formatTable(options);
+                break;
+            }
+            default: {
+
+            }
+        }
+
+    }
 
 
 

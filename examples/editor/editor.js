@@ -103,24 +103,32 @@ editor.setValue(md);
 setTimeout(function () {
 
 
+    editor.execCommand('table', {level:1});
+
     // editor.editor.execCommand('selectAll');
 
     // editor.editor.replaceSelection("插入的内容");
     // const cursor = editor.editor.getCursor();
     // console.log( cursor );
+    //
+    // const selections = editor.editor.listSelections();
+    // // console.log( selections );
+    //
+    // selections.forEach(function ({anchor, head}) {
+    //     console.log( anchor.line, head.line );
+    //     const line = anchor.line;
+    //
+    //     const string = editor.getLine(line+1);
+    //
+    //     const position = {
+    //         line: line,
+    //         ch: 0
+    //     };
+    //
+    //     editor.editor.replaceRange( '# ' + string, position);
+    //
+    // });
 
-    const selections = editor.editor.listSelections();
-    // console.log( selections );
-
-    selections.forEach(function ({anchor, head}) {
-        console.log( anchor.line, head.line );
-
-
-
-
-
-
-    });
 
     // const selection = editor.editor.getSelection();
     // console.log( selection );
