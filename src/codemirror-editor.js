@@ -479,10 +479,10 @@ class CodeMirrorEditor extends Editor {
         self.editor.replaceSelection( '['+ selection +']()' );
     }
 
-    formatImage() {
+    formatImage({url=''}) {
         const self = this;
         const selection = self.editor.getSelection();
-        self.editor.replaceSelection( '!['+ selection +']()' );
+        self.editor.replaceSelection( '!['+ selection +']('+url+')' );
     }
 
     formatTable() {
@@ -491,11 +491,26 @@ class CodeMirrorEditor extends Editor {
         const string = [
             '\n',
             '| Month    | Assignee | Backup |',
+            '| :------- | --------:| :----: |',
             '| January  | Dave     | Steve  |',
             '| February | Gregg    | Karen  |',
             '| March    | Diane    | Jorge  |',
             '\n',
         ].join('\n');
+        self.editor.replaceRange(string, cursor, cursor);
+    }
+
+
+    formatThematicBreak() {
+        const self = this;
+        const cursor = self.editor.getCursor();
+
+        const string = [
+            '',
+            '***',
+            '',
+        ].join('\n');
+
         self.editor.replaceRange(string, cursor, cursor);
     }
 
@@ -538,6 +553,11 @@ class CodeMirrorEditor extends Editor {
                 self.formatTable(options);
                 break;
             }
+            case 'thematicBreak': {
+                self.formatThematicBreak(options);
+                break;
+            }
+
             default: {
 
             }
