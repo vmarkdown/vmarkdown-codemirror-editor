@@ -584,6 +584,27 @@ class CodeMirrorEditor extends Editor {
         self.editor.replaceSelection( '`'+ selection +'`' );
     }
 
+    formatCode() {
+        const self = this;
+
+        const cursor = self.editor.getCursor();
+
+        const selection = self.editor.getSelection();
+
+        const string = [
+            '\n',
+            '``` ',
+            selection,
+            '```',
+            '\n',
+        ].join('\n');
+
+        self.editor.replaceSelection( string );
+
+        const position = {line: cursor.line+2, ch: 4};
+        self.editor.setCursor(position);
+    }
+
     formatLink() {
         const self = this;
         const selection = self.editor.getSelection();
@@ -650,6 +671,10 @@ class CodeMirrorEditor extends Editor {
             }
             case 'inlineCode': {
                 self.formatInlineCode();
+                break;
+            }
+            case 'code': {
+                self.formatCode();
                 break;
             }
             case 'link': {
