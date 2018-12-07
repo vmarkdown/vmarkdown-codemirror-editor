@@ -664,11 +664,7 @@ class CodeMirrorEditor extends Editor {
                 ch: string.length
             };
 
-            if(string) {
-                string = string.replace(/^<[ ]{0,3}/,'');
-            }
-
-            let prefix = '<';
+            let prefix = '>';
             self.editor.replaceRange( prefix +' '+ string, from, to);
         });
     }
