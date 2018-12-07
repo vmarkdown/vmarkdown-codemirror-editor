@@ -669,6 +669,51 @@ class CodeMirrorEditor extends Editor {
         });
     }
 
+    formatList({ordered=false, checked=false}) {
+        const self = this;
+        const selections = self.editor.listSelections();
+        selections.forEach(function ({anchor, head}) {
+
+            const fromLine = anchor.line;
+            const toLine = head.line;
+
+            let index = 0;
+
+            for(let i=fromLine;i<=toLine;i++){
+
+                const line = i;
+                let string = self.getLine(line+1);
+
+                if(!string){
+                    continue;
+                }
+
+                const from = {
+                    line: line,
+                    ch: 0
+                };
+
+                const to = {
+                    line: line,
+                    ch: string.length
+                };
+
+                let prefix = '-';
+
+                if(ordered) {
+                    prefix = (++index) + '. ';
+                }
+                else if(checked){
+                    prefix = '- [ ] ';
+                }
+
+                self.editor.replaceRange( prefix +' '+ string, from, to);
+
+            }
+
+
+        });
+    }
 
     execCommand(name, options = {}) {
         const self = this;
@@ -719,6 +764,10 @@ class CodeMirrorEditor extends Editor {
             }
             case 'blockquote': {
                 self.formatBlockquote(options);
+                break;
+            }
+            case 'list': {
+                self.formatList(options);
                 break;
             }
             default: {

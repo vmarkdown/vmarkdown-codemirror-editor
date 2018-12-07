@@ -104,7 +104,7 @@ setTimeout(function () {
 
 
 
-    editor.execCommand('code');
+    editor.execCommand('list', {checked: true});
 
 
 
