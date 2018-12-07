@@ -128,6 +128,13 @@ const SNIPPETS = {
         '- [x] 4',
         '\n',
     ].join('\n'),
+    MATH_BLOCK: [
+        '\n',
+        '$$',
+        '',
+        '$$',
+        '\n',
+    ].join('\n'),
 };
 
 
@@ -136,6 +143,7 @@ const snippets = [
     { text: SNIPPETS.UNORDERED_LIST, displayText: 'Unordered List' },
     { text: SNIPPETS.ORDERED_LIST, displayText: 'Ordered List' },
     { text: SNIPPETS.TASK_LIST, displayText: 'Task List' },
+    { text: SNIPPETS.MATH_BLOCK, displayText: 'Math Block' },
 ];
 
 class CodeMirrorEditor extends Editor {
