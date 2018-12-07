@@ -88,10 +88,14 @@ class CodeMirrorEditor extends Editor {
 
                 // pollInterval: 5000,
                 extraKeys: {
-                    "Enter": "newlineAndIndentContinueMarkdownList"
+                    "Enter": "newlineAndIndentContinueMarkdownList",
+                    "Cmd-B": function(){
+                        self.execCommand('strong');
+                    }
                 }
             }, self.options)
         );
+
     }
 
     on(type, handler) {

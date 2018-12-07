@@ -103,7 +103,7 @@ editor.setValue(md);
 setTimeout(function () {
 
 
-    editor.execCommand('image', {url:'https://www.baidu.com'});
+    // editor.execCommand('image', {url:'https://www.baidu.com'});
 
     // editor.editor.execCommand('selectAll');
 
