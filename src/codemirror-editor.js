@@ -701,7 +701,8 @@ class CodeMirrorEditor extends Editor {
                 let prefix = '-';
 
                 if(ordered) {
-                    prefix = (++index) + '. ';
+                    // prefix = (++index) + '. ';
+                    prefix = '1. ';
                 }
                 else if(checked){
                     prefix = '- [ ] ';
