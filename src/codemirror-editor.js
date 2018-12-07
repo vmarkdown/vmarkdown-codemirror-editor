@@ -646,6 +646,34 @@ class CodeMirrorEditor extends Editor {
         self.editor.replaceRange(string, cursor, cursor);
     }
 
+    formatBlockquote() {
+        const self = this;
+        const selections = self.editor.listSelections();
+        selections.forEach(function ({anchor}) {
+
+            const line = anchor.line;
+            let string = self.getLine(line+1);
+
+            const from = {
+                line: line,
+                ch: 0
+            };
+
+            const to = {
+                line: line,
+                ch: string.length
+            };
+
+            if(string) {
+                string = string.replace(/^<[ ]{0,3}/,'');
+            }
+
+            let prefix = '<';
+            self.editor.replaceRange( prefix +' '+ string, from, to);
+        });
+    }
+
+
     execCommand(name, options = {}) {
         const self = this;
         switch (name) {
@@ -693,7 +721,10 @@ class CodeMirrorEditor extends Editor {
                 self.formatThematicBreak(options);
                 break;
             }
-
+            case 'blockquote': {
+                self.formatBlockquote(options);
+                break;
+            }
             default: {
 
             }
